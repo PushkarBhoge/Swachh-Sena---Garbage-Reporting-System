@@ -1,0 +1,235 @@
+<%- include('../partials/header') %>
+
+<div class="hero-section bg-success text-white py-5">
+    <div class="container text-center">
+        <h1 class="display-4"><%= t('Keep Your City Clean') %></h1>
+        <p class="lead"><%= t('Report garbage issues and help make your community cleaner') %></p>
+        <a href="/report" class="btn btn-light btn-lg"><%= t('Report Garbage Now') %></a>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-4 text-center mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3>📸 <%= t('Report') %></h3>
+                    <p><%= t('Take a photo and report garbage in your area with location details') %></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 text-center mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3>👥 <%= t('Assign') %></h3>
+                    <p><%= t('Admin assigns cleaning teams to reported locations') %></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 text-center mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3>✅ <%= t('Clean') %></h3>
+                    <p><%= t('Teams clean the area and upload after photos') %></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="text-center mt-5 px-3">
+        <h2><%= t('How It Works') %></h2>
+        <p class="lead">
+            <%= t('Simple 3-step process to report and track garbage cleanup') %>
+        </p>
+
+        <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-4 mt-4">
+    
+            <a href="/report"
+            class="btn btn-success btn-md py-2 px-4"
+            style="width: 200px;">
+            <%= t('Report Garbage') %>
+            </a>
+
+            <a href="/reports"
+            class="btn btn-outline-success btn-md py-2 px-4"
+            style="width: 200px;">
+            <%= t('View Reports') %>
+            </a>
+
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/testimonials') %>
+
+<!-- FAQ Section -->
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <h2 class="text-center mb-4"><%= t('Frequently Asked Questions') %></h2>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            <%= t('How do I report garbage in my area?') %>
+                            <i class="fas fa-plus ms-auto"></i>
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            <%= t('Click on "Report Garbage" button, take a photo of the garbage spot, fill in the location details including area, landmark, city, and pincode, add a description, and submit the report. Our team will review and assign it to a cleanup crew.') %>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            <%= t('How long does it take for the cleanup team to respond?') %>
+                            <i class="fas fa-plus ms-auto"></i>
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            <%= t('Our cleanup teams typically respond within 24-48 hours of report submission. Response time may vary based on the location and severity of the issue. You can track the status of your report on the "View Reports" page.') %>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                            <%= t('Can I track the status of my garbage report?') %>
+                            <i class="fas fa-plus ms-auto"></i>
+                        </button>
+                    </h2>
+                    <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            <%= t('Yes! Visit the "View Reports" page to see all submitted reports. Each report shows its current status: Pending (awaiting assignment), Assigned (team assigned), or Cleaned (completed with after photos). You can see before and after photos once cleanup is complete.') %>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                            <%= t('Is there a cost to report garbage or use this service?') %>
+                            <i class="fas fa-plus ms-auto"></i>
+                        </button>
+                    </h2>
+                    <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            <%= t('No, our garbage reporting service is completely free for all citizens. We are a community-driven initiative focused on keeping our city clean. However, donations are welcome to help us expand our operations and serve more areas.') %>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                            <%= t('How can I volunteer or support this initiative?') %>
+                            <i class="fas fa-plus ms-auto"></i>
+                        </button>
+                    </h2>
+                    <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            <%= t('We welcome volunteers! You can support us by making a donation through our "Donate" page, spreading awareness about the platform, participating in community cleanup drives, or joining our newsletter to stay informed about volunteer opportunities and events.') %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Newsletter Section -->
+<% if (!subscriberEmail) { %>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card bg-success text-white">
+                <div class="card-body text-center py-4">
+                    <h3 class="mb-3"><i class="fas fa-envelope"></i> <%= t('Join Our Community') %></h3>
+                    <p class="mb-4"><%= t('Stay updated with our latest cleanup drives, environmental tips, and community initiatives') %></p>
+                    <form id="newsletterForm" class="row g-3 justify-content-center">
+                        <div class="col-md-6">
+                            <input type="email" class="form-control" id="emailInput" placeholder="<%= t('Enter your email') %>" required>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-light w-100"><%= t('Subscribe') %></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<% } %>
+
+<!-- Toast Notification -->
+<div id="toast" class="toast-notification">
+    <i class="fas fa-check-circle"></i>
+    <span id="toastMessage"></span>
+</div>
+
+<%- include('../partials/footer') %>
+
+<script>
+function showToast(message, type = 'success') {
+    const toast = document.getElementById('toast');
+    const toastMessage = document.getElementById('toastMessage');
+    const icon = toast.querySelector('i');
+    
+    toastMessage.textContent = message;
+    
+    if (type === 'success') {
+        toast.className = 'toast-notification toast-success show';
+        icon.className = 'fas fa-check-circle';
+    } else {
+        toast.className = 'toast-notification toast-error show';
+        icon.className = 'fas fa-exclamation-circle';
+    }
+    
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 4000);
+}
+
+const newsletterForm = document.getElementById('newsletterForm');
+if (newsletterForm) {
+    newsletterForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const email = document.getElementById('emailInput').value;
+        
+        try {
+            const response = await fetch('/subscribe', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+                showToast('✓ Subscribed successfully!', 'success');
+                localStorage.setItem('subscriberEmail', email);
+                this.reset();
+                setTimeout(() => location.reload(), 2000);
+            } else {
+                showToast(data.error || 'Subscription failed', 'error');
+            }
+        } catch (error) {
+            showToast('Error occurred', 'error');
+        }
+    });
+}
+
+document.querySelectorAll('.accordion-button').forEach(button => {
+    button.addEventListener('click', function() {
+        const icon = this.querySelector('i');
+        if (this.classList.contains('collapsed')) {
+            icon.classList.remove('fa-minus');
+            icon.classList.add('fa-plus');
+        } else {
+            icon.classList.remove('fa-plus');
+            icon.classList.add('fa-minus');
+        }
+    });
+});
+</script>
