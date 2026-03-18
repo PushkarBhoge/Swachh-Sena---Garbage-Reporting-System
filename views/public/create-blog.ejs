@@ -20,13 +20,16 @@
                         </div>
                         
                         <div class="mb-3">
-                            <label for="title" class="form-label"><%= t('Title *') %></label>
+                            <label for="title" class="form-label"><%= t('Title') %> <span style="color: red;">*</span></label>
                             <input type="text" class="form-control" id="title" name="title" required>
                         </div>
                         
                         <div class="mb-3">
-                            <label for="description" class="form-label"><%= t('Description *') %></label>
-                            <textarea class="form-control" id="description" name="description" rows="6" required></textarea>
+                            <label for="description" class="form-label"><%= t('Description') %> <span style="color: red;">*</span></label>
+                            <div class="position-relative">
+                                <textarea class="form-control" id="description" name="description" rows="6" required></textarea>
+                                <small class="position-absolute" style="bottom: 8px; right: 12px; color: #6c757d; font-size: 0.85rem;" id="charCount">0 / 1000</small>
+                            </div>
                         </div>
                         
                         <button type="submit" class="btn btn-success"><%= t('Publish Blog') %></button>
@@ -39,6 +42,21 @@
 </div>
 
 <script>
+const descTextarea = document.getElementById('description');
+const charCount = document.getElementById('charCount');
+const maxChars = 1000;
+
+if (descTextarea) {
+    descTextarea.addEventListener('input', function() {
+        const count = this.value.length;
+        charCount.textContent = count + ' / ' + maxChars;
+        if (count > maxChars) {
+            this.value = this.value.substring(0, maxChars);
+            charCount.textContent = maxChars + ' / ' + maxChars;
+        }
+    });
+}
+
 function showPreviewIcon(input) {
     const btn = document.getElementById('previewBtn');
     if (input.files && input.files[0]) {

@@ -9,6 +9,7 @@ const connectDB = require('./config/database');
 const publicRoutes = require('./routes/public');
 const adminRoutes = require('./routes/admin');
 const authRoutes = require('./routes/auth');
+const chatRoutes = require('./routes/chat');
 const { languageMiddleware } = require('./middleware/language');
 const { getTranslation } = require('./utils/translations');
 const { translateToMarathi } = require('./utils/nameTranslator');
@@ -65,6 +66,7 @@ app.post('/set-language', (req, res) => {
 
 // Routes
 app.use('/auth', authRoutes);
+app.use('/api/chat', chatRoutes);
 app.use('/', publicRoutes);
 app.use('/admin', adminRoutes);
 

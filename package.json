@@ -8,7 +8,11 @@
     "dev": "nodemon server.js"
   },
   "dependencies": {
-    "@google-cloud/translate": "^9.3.0",
+    "@google-cloud/translate": "^6.3.1",
+    "@huggingface/hub": "^2.11.0",
+    "@huggingface/inference": "^4.13.15",
+    "@huggingface/mcp-client": "^0.2.3",
+    "axios": "^1.6.0",
     "bcrypt": "^6.0.0",
     "cloudinary": "^2.9.0",
     "connect-mongo": "^6.0.0",

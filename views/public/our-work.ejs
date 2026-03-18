@@ -12,11 +12,11 @@ const formatTextNumbers = (text) => {
 
 <div class="hero-section text-white py-5">
     <div class="container">
-        <div class="d-flex align-items-center justify-content-center flex-wrap">
-            <img src="<%= language === 'mr' ? '/assets/logo-mr.png' : '/assets/logo-eng.png' %>" alt="Swachh Sena Logo" class="hero-logo-xl me-4">
-            <div class="text-start">
-                <h1 class="display-3 fw-bold"><%= t('Our Work & Impact') %></h1>
-                <p class="lead"><%= t('Making a difference, one cleanup at a time') %></p>
+        <div class="d-flex align-items-center justify-content-center flex-column flex-md-row text-center text-md-start gap-3">
+            <img src="<%= language === 'mr' ? '/assets/logo-mr.png' : '/assets/logo-eng.png' %>" alt="Swachh Sena Logo" class="hero-logo-xl flex-shrink-0">
+            <div>
+                <h1 class="display-5 display-md-3 fw-bold"><%= t('Our Work & Impact') %></h1>
+                <p class="lead mb-0"><%= t('Making a difference, one cleanup at a time') %></p>
             </div>
         </div>
     </div>
@@ -60,34 +60,34 @@ const formatTextNumbers = (text) => {
         <div class="col-md-12">
             <h2 class="text-center mb-4 text-success">🏆 <%= t('Our Achievements') %></h2>
         </div>
-        <div class="col-md-3 col-sm-6 mb-4">
-            <div class="card text-center stat-card bg-primary text-white">
+        <div class="col-6 col-md-3 mb-4">
+            <div class="card text-center stat-card bg-primary text-white h-100">
                 <div class="card-body">
-                    <h1 class="display-4 counter" data-target="2500">0</h1>
+                    <h1 class="display-5 counter" data-target="2500">0</h1>
                     <p class="mb-0"><%= t('Garbage Spots Cleaned') %></p>
                 </div>
             </div>
         </div>
-        <div class="col-md-3 col-sm-6 mb-4">
-            <div class="card text-center stat-card bg-success text-white">
+        <div class="col-6 col-md-3 mb-4">
+            <div class="card text-center stat-card bg-success text-white h-100">
                 <div class="card-body">
-                    <h1 class="display-4 counter" data-target="50">0</h1>
+                    <h1 class="display-5 counter" data-target="50">0</h1>
                     <p class="mb-0"><%= t('Cleanup Teams') %></p>
                 </div>
             </div>
         </div>
-        <div class="col-md-3 col-sm-6 mb-4">
-            <div class="card text-center stat-card bg-warning text-white">
+        <div class="col-6 col-md-3 mb-4">
+            <div class="card text-center stat-card bg-warning text-white h-100">
                 <div class="card-body">
-                    <h1 class="display-4 counter" data-target="15000">0</h1>
+                    <h1 class="display-5 counter" data-target="15000">0</h1>
                     <p class="mb-0"><%= t('Volunteers Engaged') %></p>
                 </div>
             </div>
         </div>
-        <div class="col-md-3 col-sm-6 mb-4">
-            <div class="card text-center stat-card bg-info text-white">
+        <div class="col-6 col-md-3 mb-4">
+            <div class="card text-center stat-card bg-info text-white h-100">
                 <div class="card-body">
-                    <h1 class="display-4 counter" data-target="500">0</h1>
+                    <h1 class="display-5 counter" data-target="500">0</h1>
                     <p class="mb-0"><%= t('Waste Collected (Tons)') %></p>
                 </div>
             </div>

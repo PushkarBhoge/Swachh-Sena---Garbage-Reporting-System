@@ -226,104 +226,324 @@ footer.bg-dark p {
     color: #6c757d !important;
 }
 
-/* Responsive adjustments */
+/* ===== RESPONSIVE STYLES ===== */
+
+/* Navbar */
 @media (max-width: 991px) {
-    .hero-section {
-        padding: 2rem 0 !important;
+    .navbar-collapse {
+        padding: 10px 0;
+        border-top: 1px solid rgba(255,255,255,0.2);
+        margin-top: 8px;
     }
-    
-    .hero-section h1 {
-        font-size: 1.8rem;
+
+    .navbar-nav {
+        align-items: center;
+        gap: 2px;
     }
-    
-    .hero-section .lead {
-        font-size: 1rem;
+
+    .navbar-nav .nav-item {
+        width: 100%;
+        text-align: center;
     }
-    
-    .table-responsive {
-        font-size: 0.85rem;
+
+    .navbar-nav .nav-link {
+        padding: 8px 12px;
+        text-align: center;
     }
-    
-    .card-body {
-        padding: 1rem;
+
+    .navbar-nav .nav-item.d-flex {
+        width: auto;
+        margin-top: 8px;
+        justify-content: center;
     }
-    
-    .btn {
-        padding: 6px 16px;
-        font-size: 0.9rem;
+
+    .navbar-nav .dropdown-menu {
+        position: static;
+        box-shadow: none;
+        border: none;
+        background: rgba(255,255,255,0.1);
+        text-align: center;
     }
-    
-    .navbar-brand {
-        font-size: 1.2rem;
+
+    .navbar-nav .dropdown-item {
+        color: white !important;
+        text-align: center;
     }
-    
-    .modal-dialog {
-        margin: 0.5rem;
-    }
-    
-    .container {
-        padding-left: 10px;
-        padding-right: 10px;
-    }
-    
+
     .nav-link.active::after {
         display: none;
     }
-    
-    .navbar-collapse {
-        padding: 15px 0;
-        text-align: center;
+
+    .lang-selector {
+        width: 100%;
     }
-    
-    .navbar-nav {
-        align-items: center;
+}
+
+/* Hero section */
+@media (max-width: 991px) {
+    .hero-section {
+        padding: 2.5rem 0 !important;
     }
-    
-    .navbar-nav .nav-item {
-        margin: 3px 0;
+
+    .hero-section h1 {
+        font-size: 1.8rem;
     }
-    
-    #unsubscribeBtn {
-        margin: 8px auto;
-        max-width: 200px;
+
+    .hero-section .lead {
+        font-size: 1rem;
+    }
+
+    .hero-logo-xl {
+        height: 130px;
+        margin-bottom: 16px;
     }
 }
 
 @media (max-width: 576px) {
+    .hero-section {
+        padding: 2rem 0 !important;
+    }
+
     .hero-section h1 {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
     }
-    
-    .card-header h3 {
-        font-size: 1.2rem;
+
+    .hero-section .lead {
+        font-size: 0.9rem;
     }
-    
+
+    .hero-logo-xl {
+        height: 100px;
+    }
+
+    .hero-section .btn {
+        width: 100%;
+        margin: 5px 0;
+    }
+}
+
+/* Cards */
+@media (max-width: 768px) {
+    .card-body {
+        padding: 1rem;
+    }
+
+    .card-header {
+        padding: 0.75rem 1rem;
+    }
+
+    .card-header h3,
+    .card-header h4 {
+        font-size: 1.1rem;
+    }
+}
+
+/* Tables */
+@media (max-width: 991px) {
+    .table-responsive {
+        font-size: 0.85rem;
+        border-radius: 8px;
+    }
+
+    .admin-table thead th {
+        font-size: 0.75rem;
+        padding: 10px 8px;
+    }
+
+    .admin-table tbody td {
+        padding: 10px 8px;
+    }
+}
+
+@media (max-width: 576px) {
     .table-responsive table {
-        font-size: 0.8rem;
+        font-size: 0.78rem;
     }
-    
+
+    .table td img {
+        width: 40px !important;
+        height: 40px !important;
+    }
+}
+
+/* Buttons */
+@media (max-width: 768px) {
+    .btn {
+        padding: 6px 14px;
+        font-size: 0.875rem;
+    }
+
     .btn-sm {
         padding: 4px 8px;
         font-size: 0.8rem;
     }
-    
-    .position-absolute.top-0.end-0 {
-        top: 5px !important;
-        right: 5px !important;
+
+    .btn-lg {
+        padding: 10px 20px;
+        font-size: 1rem;
     }
-    
-    .input-group .btn {
-        padding: 6px 12px;
-    }
-    
-    .btn {
-        margin: 5px 0;
-    }
-    
-    .hero-section .btn {
-        margin: 10px 5px;
-        display: block;
+}
+
+@media (max-width: 576px) {
+    .d-flex.gap-2.flex-wrap .btn,
+    .d-flex.gap-3.flex-wrap .btn {
         width: 100%;
+    }
+}
+
+/* Modals */
+@media (max-width: 576px) {
+    .modal-dialog {
+        margin: 0.5rem;
+    }
+
+    .modal-body {
+        padding: 1rem;
+    }
+
+    .modal-footer {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .modal-footer .btn {
+        width: 100%;
+    }
+}
+
+/* Stat cards on admin dashboard */
+@media (max-width: 768px) {
+    .stat-card h2 {
+        font-size: 1.5rem;
+    }
+
+    .stat-card h5 {
+        font-size: 0.85rem;
+    }
+}
+
+/* Forms */
+@media (max-width: 576px) {
+    .input-group {
+        flex-wrap: wrap;
+    }
+
+    .input-group .btn {
+        width: 100%;
+        border-radius: 10px !important;
+        margin-top: 6px;
+    }
+
+    .input-group .form-control {
+        border-radius: 10px !important;
+    }
+}
+
+/* Container padding */
+@media (max-width: 576px) {
+    .container {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .my-5 {
+        margin-top: 2rem !important;
+        margin-bottom: 2rem !important;
+    }
+
+    .py-5 {
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+    }
+}
+
+/* Toast */
+@media (max-width: 576px) {
+    .toast-notification {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        padding: 12px 16px;
+        font-size: 13px;
+        transform: translateY(-100px);
+    }
+
+    .toast-notification.show {
+        transform: translateY(0);
+    }
+}
+
+/* Unsubscribe btn in navbar */
+@media (max-width: 991px) {
+    #unsubscribeBtn {
+        width: 100%;
+    }
+}
+
+/* Charts on admin dashboard */
+@media (max-width: 768px) {
+    canvas {
+        max-height: 220px !important;
+    }
+}
+
+/* Profile page */
+@media (max-width: 576px) {
+    .profile-section .row > div {
+        margin-bottom: 1rem;
+    }
+}
+
+/* Reports page image thumbnails */
+@media (max-width: 576px) {
+    .report-img {
+        width: 60px !important;
+        height: 60px !important;
+        object-fit: cover;
+    }
+}
+
+/* Accordion */
+@media (max-width: 576px) {
+    .accordion-button {
+        font-size: 0.9rem;
+        padding: 12px;
+    }
+
+    .accordion-body {
+        font-size: 0.875rem;
+        padding: 12px;
+    }
+}
+
+/* Quick amount buttons - consistent height */
+.quick-amt-btn {
+    min-height: 42px;
+    font-size: 0.875rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 768px) {
+    .quick-amt-btn {
+        font-size: 0.8rem;
+        padding: 6px 4px;
+    }
+}
+
+/* Our Work CTA buttons on mobile */
+@media (max-width: 576px) {
+    .card.bg-success .btn {
+        width: 100%;
+        margin: 4px 0 !important;
+    }
+}
+
+/* Stat card counter font scaling */
+@media (max-width: 768px) {
+    .stat-card .display-5 {
+        font-size: 1.8rem;
     }
 }
 
