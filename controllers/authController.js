@@ -82,10 +82,9 @@ exports.getProfile = async (req, res) => {
     
     const Donation = require('../models/Donation');
     const donations = await Donation.find({ userId: req.session.userId, status: 'completed' }).sort({ createdAt: -1 });
-    const totalDonated = donations.reduce((sum, d) => {
-      const inrAmount = d.currency === 'INR' ? d.amount : d.amount * 83;
-      return sum + inrAmount;
-    }, 0);
+    const { toINR } = require('../utils/currency');
+    const inrAmounts = await Promise.all(donations.map(d => toINR(d.amount, d.currency)));
+    const totalDonated = inrAmounts.reduce((sum, v) => sum + v, 0);
     
     const success = req.session.profileSuccess;
     delete req.session.profileSuccess;

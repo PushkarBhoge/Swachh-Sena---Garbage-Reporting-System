@@ -35,11 +35,10 @@ const adminController = {
       const totalUsers = await User.countDocuments();
       const totalSubscribers = await Newsletter.countDocuments({ status: 'active' });
       
+      const { toINR, getRates } = require('../utils/currency');
       const donations = await Donation.find({ status: 'completed' });
-      const totalDonations = donations.reduce((sum, d) => {
-        const rate = d.currency === 'INR' ? 1 : d.currency === 'USD' ? 83 : d.currency === 'EUR' ? 90 : 12;
-        return sum + (d.amount * rate);
-      }, 0);
+      const inrAmounts = await Promise.all(donations.map(d => toINR(d.amount, d.currency)));
+      const totalDonations = inrAmounts.reduce((sum, v) => sum + v, 0);
       const donationCount = donations.length;
 
       // Monthly reports data (last 6 months)
@@ -74,11 +73,11 @@ const adminController = {
         monthlyDonations[key] = 0;
       }
       
+      const rates = await getRates();
       donationsData.forEach(donation => {
         const key = `${donation.createdAt.getFullYear()}-${String(donation.createdAt.getMonth() + 1).padStart(2, '0')}`;
         if (monthlyDonations[key] !== undefined) {
-          const rate = donation.currency === 'INR' ? 1 : donation.currency === 'USD' ? 83 : donation.currency === 'EUR' ? 90 : 12;
-          monthlyDonations[key] += (donation.amount * rate);
+          monthlyDonations[key] += donation.amount * (rates[donation.currency] || 1);
         }
       });
 
@@ -320,10 +319,13 @@ const adminController = {
   // Donations management
   getDonations: async (req, res) => {
     try {
+      const { getRates } = require('../utils/currency');
       const donations = await Donation.find().sort({ createdAt: -1 });
+      const rates = await getRates();
       res.render('admin/donations', { 
         title: 'Donations', 
         donations,
+        rates,
         success: req.session.donationSuccess
       });
       delete req.session.donationSuccess;
@@ -377,10 +379,10 @@ const adminController = {
         { header: 'Message', key: 'message', width: 40 }
       ];
       
-      donations.forEach(donation => {
-        const rate = donation.currency === 'INR' ? 1 : donation.currency === 'USD' ? 83 : donation.currency === 'EUR' ? 90 : 12;
-        const inrAmount = donation.amount * rate;
-        
+      const { toINR } = require('../utils/currency');
+      const inrAmounts = await Promise.all(donations.map(d => toINR(d.amount, d.currency)));
+      donations.forEach((donation, i) => {
+        const inrAmount = inrAmounts[i];
         worksheet.addRow({
           date: new Date(donation.createdAt).toLocaleDateString(),
           donorName: donation.donorName || 'Anonymous',
