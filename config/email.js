@@ -1,23 +1,12 @@
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 
 const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
-
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
-  requireTLS: true,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
+const FROM_EMAIL = process.env.FROM_EMAIL || 'onboarding@resend.dev';
 
 const sendConfirmationEmail = async (email, token) => {
   const confirmUrl = `${BASE_URL}/confirm-subscription?token=${token}`;
   const mailOptions = {
-    from: process.env.EMAIL_USER,
-    to: email,
     subject: '🌿 Confirm Your Swachh Sena Newsletter Subscription',
     html: `
       <!DOCTYPE html>
@@ -57,14 +46,17 @@ const sendConfirmationEmail = async (email, token) => {
       </html>
     `
   };
-  await transporter.sendMail(mailOptions);
+  await resend.emails.send({
+    from: FROM_EMAIL,
+    to: email,
+    subject: mailOptions.subject,
+    html: mailOptions.html
+  });
 };
 
 const sendWelcomeEmail = async (email, token) => {
   const unsubscribeUrl = `${BASE_URL}/unsubscribe?token=${token}`;
   const mailOptions = {
-    from: process.env.EMAIL_USER,
-    to: email,
     subject: '🌿 Welcome to Swachh Sena Community!',
     html: `
       <!DOCTYPE html>
@@ -129,7 +121,12 @@ const sendWelcomeEmail = async (email, token) => {
     `
   };
 
-  await transporter.sendMail(mailOptions);
+  await resend.emails.send({
+    from: FROM_EMAIL,
+    to: email,
+    subject: mailOptions.subject,
+    html: mailOptions.html
+  });
 };
 
 module.exports = { sendConfirmationEmail, sendWelcomeEmail };
