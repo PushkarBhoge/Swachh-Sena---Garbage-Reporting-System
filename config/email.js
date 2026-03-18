@@ -1,7 +1,12 @@
 const nodemailer = require('nodemailer');
 
+const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
+
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false,
+  requireTLS: true,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS
@@ -9,7 +14,7 @@ const transporter = nodemailer.createTransport({
 });
 
 const sendConfirmationEmail = async (email, token) => {
-  const confirmUrl = `http://localhost:3000/confirm-subscription?token=${token}`;
+  const confirmUrl = `${BASE_URL}/confirm-subscription?token=${token}`;
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: email,
@@ -56,7 +61,7 @@ const sendConfirmationEmail = async (email, token) => {
 };
 
 const sendWelcomeEmail = async (email, token) => {
-  const unsubscribeUrl = `http://localhost:3000/unsubscribe?token=${token}`;
+  const unsubscribeUrl = `${BASE_URL}/unsubscribe?token=${token}`;
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: email,
@@ -109,7 +114,7 @@ const sendWelcomeEmail = async (email, token) => {
             <p class="welcome-text">Ready to make an impact? Start by reporting garbage spots in your area or join our next cleanup drive!</p>
             
             <center>
-              <a href="http://localhost:3000" class="cta-button">Visit Swachh Sena Platform</a>
+              <a href="${BASE_URL}" class="cta-button">Visit Swachh Sena Platform</a>
             </center>
           </div>
           <div class="footer">

@@ -20,8 +20,10 @@ const app = express();
 // Connect to MongoDB
 connectDB();
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 // Trust Render's proxy so secure cookies work over HTTPS
-app.set('trust proxy', 1);
+if (isProduction) app.set('trust proxy', 1);
 
 // Middleware
 app.use(cors());
@@ -37,8 +39,8 @@ app.use(session({
   saveUninitialized: false,
   store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
   cookie: { 
-    secure: true,
-    sameSite: 'none',
+    secure: isProduction,
+    sameSite: isProduction ? 'none' : 'lax',
     maxAge: 7 * 24 * 60 * 60 * 1000
   }
 }));
