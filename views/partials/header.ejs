@@ -56,21 +56,26 @@
                     </li>
                     <% if (typeof userId !== 'undefined' && userId) { %>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-user-circle"></i> <%= userName || t('User') %>
+                            <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                                <span class="user-avatar"><%= (userName || 'U').charAt(0).toUpperCase() %></span>
+                                <span class="d-none d-lg-inline"><%= userName || t('User') %></span>
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-end">
+                            <ul class="dropdown-menu dropdown-menu-end user-dropdown">
+                                <li class="user-dropdown-header">
+                                    <div class="user-avatar-lg"><%= (userName || 'U').charAt(0).toUpperCase() %></div>
+                                    <div class="user-dropdown-name"><%= userName || t('User') %></div>
+                                </li>
+                                <li><hr class="dropdown-divider my-1"></li>
                                 <% if (userRole === 'user') { %>
-                                    <li><a class="dropdown-item" href="/auth/profile"><i class="fas fa-user-edit"></i> <%= t('My Profile') %></a></li>
-                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="/auth/profile"><i class="fas fa-user-edit me-2"></i><%= t('My Profile') %></a></li>
                                     <% if (typeof subscriberEmail !== 'undefined' && subscriberEmail) { %>
-                                        <li><a class="dropdown-item" href="#" id="unsubscribeBtn"><i class="fas fa-bell-slash"></i> <%= t('Unsubscribe') %></a></li>
+                                        <li><a class="dropdown-item" href="#" id="unsubscribeBtn"><i class="fas fa-bell-slash me-2"></i><%= t('Unsubscribe') %></a></li>
                                     <% } else { %>
-                                        <li><a class="dropdown-item" href="#" id="subscribeBtn"><i class="fas fa-bell"></i> <%= t('Subscribe') %></a></li>
+                                        <li><a class="dropdown-item" href="#" id="subscribeBtn"><i class="fas fa-bell me-2"></i><%= t('Subscribe') %></a></li>
                                     <% } %>
-                                    <li><hr class="dropdown-divider"></li>
+                                    <li><hr class="dropdown-divider my-1"></li>
                                 <% } %>
-                                <li><a class="dropdown-item" href="/auth/logout"><i class="fas fa-sign-out-alt"></i> <%= t('Logout') %></a></li>
+                                <li><a class="dropdown-item dropdown-item-danger" href="/auth/logout"><i class="fas fa-sign-out-alt me-2"></i><%= t('Logout') %></a></li>
                             </ul>
                         </li>
                     <% } else { %>
