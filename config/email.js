@@ -1,8 +1,25 @@
-const { Resend } = require('resend');
+const { BrevoClient } = require('@getbrevo/brevo');
 
 const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
-const resend = new Resend(process.env.RESEND_API_KEY);
-const FROM_EMAIL = process.env.FROM_EMAIL || 'onboarding@resend.dev';
+
+const brevoClient = new BrevoClient({
+  apiKey: process.env.BREVO_API_KEY
+});
+
+const sendEmail = async (to, subject, html) => {
+  try {
+    const response = await brevoClient.transactionalEmails.sendTransacEmail({
+      to: [{ email: to }],
+      sender: { name: 'Swachh Sena', email: process.env.FROM_EMAIL },
+      subject,
+      htmlContent: html
+    });
+    console.log('Brevo response:', JSON.stringify(response));
+  } catch (err) {
+    console.error('Brevo error:', err.message, err.response?.data || '');
+    throw err;
+  }
+};
 
 const sendConfirmationEmail = async (email, token) => {
   const confirmUrl = `${BASE_URL}/confirm-subscription?token=${token}`;
@@ -46,12 +63,7 @@ const sendConfirmationEmail = async (email, token) => {
       </html>
     `
   };
-  await resend.emails.send({
-    from: FROM_EMAIL,
-    to: email,
-    subject: mailOptions.subject,
-    html: mailOptions.html
-  });
+  await sendEmail(email, mailOptions.subject, mailOptions.html);
 };
 
 const sendWelcomeEmail = async (email, token) => {
@@ -121,12 +133,7 @@ const sendWelcomeEmail = async (email, token) => {
     `
   };
 
-  await resend.emails.send({
-    from: FROM_EMAIL,
-    to: email,
-    subject: mailOptions.subject,
-    html: mailOptions.html
-  });
+  await sendEmail(email, mailOptions.subject, mailOptions.html);
 };
 
 module.exports = { sendConfirmationEmail, sendWelcomeEmail };
