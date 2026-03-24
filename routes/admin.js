@@ -12,7 +12,7 @@ router.get('/logout', adminController.logout);
 // Protected admin routes
 router.get('/dashboard', requireAdmin, adminController.getDashboard);
 router.get('/reports', requireAdmin, adminController.getReports);
-router.post('/reports/:reportId', requireAdmin, upload.single('afterImage'), adminController.updateReport);
+router.post('/reports/:reportId', requireAdmin, upload.array('afterImages', 10), adminController.updateReport);
 
 // Team management routes
 router.get('/teams', requireAdmin, adminController.getTeams);

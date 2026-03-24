@@ -2,17 +2,14 @@ const GarbageReport = require('../models/GarbageReport');
 const Blog = require('../models/Blog');
 const Newsletter = require('../models/Newsletter');
 const Donation = require('../models/Donation');
-const { uploadToCloudinary } = require('../config/cloudinary');
-const { translateText } = require('../middleware/language');
+const { uploadToCloudinary, uploadMultiple } = require('../config/cloudinary');
+const { translateText, sleep } = require('../middleware/language');
 const { sendConfirmationEmail, sendWelcomeEmail } = require('../config/email');
 const crypto = require('crypto');
 
 const publicController = {
   // Home page
   getHome: (req, res) => {
-    if (!req.session.userId) {
-      return res.redirect('/auth/login');
-    }
     res.render('public/home', { title: 'Garbage Reporting System' });
   },
 
@@ -23,23 +20,25 @@ const publicController = {
 
   // Submit garbage report
   submitReport: async (req, res) => {
+    if (!req.session.userId) {
+      return res.status(401).json({ error: 'Login required' });
+    }
     try {
       const { area, landmark, city, pincode, description } = req.body;
       
-      if (!req.file) {
-        return res.status(400).json({ error: 'Image required' });
+      if (!req.files || req.files.length === 0) {
+        return res.status(400).json({ error: 'At least one image required' });
       }
 
-      const result = await uploadToCloudinary(req.file.buffer);
+      const results = await uploadMultiple(req.files);
+      const beforeImages = results.map(r => ({ url: r.secure_url, public_id: r.public_id }));
       
       const report = new GarbageReport({
-        beforeImage: {
-          url: result.secure_url,
-          public_id: result.public_id
-        },
+        beforeImages,
         location: { area, landmark, city, pincode },
         description,
-        reportedBy: req.session.name || 'Anonymous'
+        reportedBy: req.session.name || 'Anonymous',
+        userId: req.session.userId
       });
 
       await report.save();
@@ -58,8 +57,8 @@ const publicController = {
       const userName = req.session.name;
       
       let query = {};
-      if (filter === 'mine' && userName) {
-        query = { reportedBy: userName };
+      if (filter === 'mine' && req.session.userId) {
+        query = { userId: req.session.userId };
       }
       
       const reports = await GarbageReport.find(query).sort({ createdAt: -1 });
@@ -68,9 +67,13 @@ const publicController = {
       if (language === 'mr') {
         for (let report of reports) {
           report.location.area = await translateText(report.location.area, 'mr');
+          await sleep(300);
           report.location.landmark = await translateText(report.location.landmark, 'mr');
+          await sleep(300);
           report.location.city = await translateText(report.location.city, 'mr');
+          await sleep(300);
           report.description = await translateText(report.description, 'mr');
+          await sleep(300);
         }
       }
       
@@ -89,10 +92,7 @@ const publicController = {
 
   // Donation page
   getDonate: (req, res) => {
-    res.render('public/donate', { 
-      title: 'Donate',
-      stripePublishableKey: process.env.STRIPE_PUBLISHABLE_KEY
-    });
+    res.render('public/donate', { title: 'Donate', requireAuth: false, stripePublishableKey: process.env.STRIPE_PUBLISHABLE_KEY });
   },
 
   // Our Work page
@@ -107,21 +107,22 @@ const publicController = {
 
   // Submit blog
   submitBlog: async (req, res) => {
+    if (!req.session.userId) {
+      return res.status(401).json({ error: 'Login required' });
+    }
     try {
       const { title, description } = req.body;
       
       const blogData = { 
         title, 
         author: req.session.name || 'Anonymous',
-        description 
+        description,
+        userId: req.session.userId 
       };
       
-      if (req.file) {
-        const result = await uploadToCloudinary(req.file.buffer);
-        blogData.image = {
-          url: result.secure_url,
-          public_id: result.public_id
-        };
+      if (req.files && req.files.length > 0) {
+        const results = await uploadMultiple(req.files);
+        blogData.images = results.map(r => ({ url: r.secure_url, public_id: r.public_id }));
       }
 
       const blog = new Blog(blogData);
@@ -141,8 +142,8 @@ const publicController = {
       const userName = req.session.name;
       
       let query = {};
-      if (filter === 'mine' && userName) {
-        query = { author: userName };
+      if (filter === 'mine' && req.session.userId) {
+        query = { userId: req.session.userId };
       }
       
       const blogs = await Blog.find(query).sort({ createdAt: -1 });
@@ -151,8 +152,11 @@ const publicController = {
       if (language === 'mr') {
         for (let blog of blogs) {
           blog.title = await translateText(blog.title, 'mr');
+          await sleep(300);
           blog.author = await translateText(blog.author, 'mr');
+          await sleep(300);
           blog.description = await translateText(blog.description, 'mr');
+          await sleep(300);
         }
       }
       

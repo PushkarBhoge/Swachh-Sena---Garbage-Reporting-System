@@ -1,271 +1,317 @@
 <%- include('../partials/admin-header') %>
 
-<div class="container my-5">
-    <h2>Admin Dashboard</h2>
-    
-    <div class="row mt-4">
-        <div class="col-md-3 mb-3">
-            <div class="card bg-primary text-white">
-                <div class="card-body">
-                    <h5>Total Reports</h5>
-                    <h2><%= stats.totalReports %></h2>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 mb-3">
-            <div class="card bg-warning text-white">
-                <div class="card-body">
-                    <h5>Pending</h5>
-                    <h2><%= stats.pendingReports %></h2>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 mb-3">
-            <div class="card bg-info text-white">
-                <div class="card-body">
-                    <h5>Assigned</h5>
-                    <h2><%= stats.assignedReports %></h2>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 mb-3">
-            <div class="card bg-success text-white">
-                <div class="card-body">
-                    <h5>Cleaned</h5>
-                    <h2><%= stats.cleanedReports %></h2>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 mb-3">
-            <div class="card bg-dark text-white">
-                <div class="card-body">
-                    <h5>Total Blogs</h5>
-                    <h2><%= stats.totalBlogs %></h2>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 mb-3">
-            <div class="card bg-secondary text-white">
-                <div class="card-body">
-                    <h5>Registered Users</h5>
-                    <h2><%= stats.totalUsers %></h2>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 mb-3">
-            <div class="card bg-info text-white">
-                <div class="card-body">
-                    <h5>Subscribers</h5>
-                    <h2><%= stats.totalSubscribers %></h2>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 mb-3">
-            <div class="card text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                <div class="card-body">
-                    <h5>Total Donations</h5>
-                    <h2>₹<%= Math.round(stats.totalDonations).toLocaleString() %></h2>
-                    <small><%= stats.donationCount %> donations</small>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div class="container my-5">
+        <h2>Admin Dashboard</h2>
 
-    <!-- Quick Actions and Teams Section -->
-    <div class="row mt-4">
-        <div class="col-12 col-md-6 mb-4">
-            <div class="card h-100">
-                <div class="card-body text-center text-md-start">
-                    <h5 class="mb-3">Quick Actions</h5>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-start flex-wrap">
-                        <a href="/admin/reports" class="btn btn-primary flex-fill flex-md-grow-0">Manage Reports</a>
-                        <a href="/admin/teams" class="btn btn-success flex-fill flex-md-grow-0">Manage Teams</a>
-                        <a href="/admin/blogs" class="btn btn-dark flex-fill flex-md-grow-0">Manage Blogs</a>
-                        <a href="/admin/subscribers" class="btn btn-secondary flex-fill flex-md-grow-0">Manage Users</a>
-                        <a href="/admin/donations" class="btn btn-purple flex-fill flex-md-grow-0" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none;">View Donations</a>
-                        <a href="/admin/reports-download" class="btn btn-info flex-fill flex-md-grow-0">Download Reports</a>
+        <div class="row mt-4">
+            <div class="col-md-3 mb-3">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <h5>Total Reports</h5>
+                        <h2>
+                            <%= stats.totalReports %>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card bg-warning text-white">
+                    <div class="card-body">
+                        <h5>Pending</h5>
+                        <h2>
+                            <%= stats.pendingReports %>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card bg-info text-white">
+                    <div class="card-body">
+                        <h5>Assigned</h5>
+                        <h2>
+                            <%= stats.assignedReports %>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <h5>Cleaned</h5>
+                        <h2>
+                            <%= stats.cleanedReports %>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card bg-dark text-white">
+                    <div class="card-body">
+                        <h5>Total Blogs</h5>
+                        <h2>
+                            <%= stats.totalBlogs %>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card bg-secondary text-white">
+                    <div class="card-body">
+                        <h5>Registered Users</h5>
+                        <h2>
+                            <%= stats.totalUsers %>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card bg-info text-white">
+                    <div class="card-body">
+                        <h5>Subscribers</h5>
+                        <h2>
+                            <%= stats.totalSubscribers %>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card text-white card-donations" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <div class="card-body">
+                        <h5>Total Donations</h5>
+                        <h2>₹<%= Math.round(stats.totalDonations).toLocaleString() %>
+                        </h2>
+                        <small>
+                            <%= stats.donationCount %> donations
+                        </small>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-6 mb-4">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5>Teams</h5>
-                    <p>Total Teams: <strong><%= stats.totalTeams %></strong></p>
-                    <a href="/admin/teams" class="btn btn-outline-primary">View Teams</a>
+        <!-- Quick Actions and Teams Section -->
+        <div class="row mt-4">
+            <div class="col-12 col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center text-md-start">
+                        <h5 class="mb-3">Quick Actions</h5>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-start flex-wrap">
+                            <a href="/admin/reports" class="btn btn-primary flex-fill flex-md-grow-0">Manage Reports</a>
+                            <a href="/admin/teams" class="btn btn-success flex-fill flex-md-grow-0">Manage Teams</a>
+                            <a href="/admin/blogs" class="btn btn-dark flex-fill flex-md-grow-0">Manage Blogs</a>
+                            <a href="/admin/subscribers" class="btn btn-secondary flex-fill flex-md-grow-0">Manage
+                                Users</a>
+                            <a href="/admin/donations" class="btn btn-purple flex-fill flex-md-grow-0"
+                                style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none;">View
+                                Donations</a>
+                            <a href="/admin/reports-download" class="btn btn-info flex-fill flex-md-grow-0">Download
+                                Reports</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5>Teams</h5>
+                        <p>Total Teams: <strong>
+                                <%= stats.totalTeams %>
+                            </strong></p>
+                        <a href="/admin/teams" class="btn btn-outline-primary">View Teams</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="row mt-4">
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Reports Status Distribution</h5>
+                        <canvas id="statusChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Monthly Reports Trend</h5>
+                        <canvas id="monthlyChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Monthly Donations (INR)</h5>
+                        <canvas id="donationChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Team Performance</h5>
+                        <canvas id="teamChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Charts Section -->
-    <div class="row mt-4">
-        <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Reports Status Distribution</h5>
-                    <canvas id="statusChart"></canvas>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Monthly Reports Trend</h5>
-                    <canvas id="monthlyChart"></canvas>
-                </div>
-            </div>
-        </div>
+    <div id="chartData" style="display:none"
+        data-pending="<%= stats.pendingReports %>"
+        data-assigned="<%= stats.assignedReports %>"
+        data-cleaned="<%= stats.cleanedReports %>"
+        data-monthly-labels="<%= JSON.stringify(chartData.monthlyLabels) %>"
+        data-monthly-values="<%= JSON.stringify(chartData.monthlyValues) %>"
+        data-donation-labels="<%= JSON.stringify(chartData.donationLabels) %>"
+        data-donation-values="<%= JSON.stringify(chartData.donationValues) %>"
+        data-team-labels="<%= JSON.stringify(chartData.teamLabels) %>"
+        data-team-values="<%= JSON.stringify(chartData.teamValues) %>">
     </div>
 
-    <div class="row">
-        <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Monthly Donations (INR)</h5>
-                    <canvas id="donationChart"></canvas>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Team Performance</h5>
-                    <canvas id="teamChart"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const isDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
+        const textColor = isDarkMode ? '#ffffff' : '#666';
+        const gridColor = isDarkMode ? '#444' : '#e0e0e0';
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-// Detect dark mode and set chart text color
-const isDarkMode = document.documentElement.getAttribute('data-bs-theme') === 'dark';
-const textColor = isDarkMode ? '#ffffff' : '#666';
+        const d = document.getElementById('chartData').dataset;
+        const pendingReports = Number(d.pending);
+        const assignedReports = Number(d.assigned);
+        const cleanedReports = Number(d.cleaned);
+        const monthlyLabels = JSON.parse(d.monthlyLabels);
+        const monthlyValues = JSON.parse(d.monthlyValues);
+        const donationLabels = JSON.parse(d.donationLabels);
+        const donationValues = JSON.parse(d.donationValues);
+        const teamLabels = JSON.parse(d.teamLabels);
+        const teamValues = JSON.parse(d.teamValues);
 
-// Status Pie Chart
-const statusCtx = document.getElementById('statusChart').getContext('2d');
-new Chart(statusCtx, {
-    type: 'doughnut',
-    data: {
-        labels: ['Pending', 'Assigned', 'Cleaned'],
-        datasets: [{
-            data: [<%= stats.pendingReports %>, <%= stats.assignedReports %>, <%= stats.cleanedReports %>],
-            backgroundColor: ['#ffc107', '#17a2b8', '#28a745']
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: true,
-        aspectRatio: 2,
-        plugins: {
-            legend: { 
-                position: 'bottom',
-                labels: { color: textColor }
-            }
-        }
-    }
-});
-
-// Monthly Trend Line Chart
-const monthlyCtx = document.getElementById('monthlyChart').getContext('2d');
-new Chart(monthlyCtx, {
-    type: 'line',
-    data: {
-        labels: <%- JSON.stringify(chartData.monthlyLabels) %>,
-        datasets: [{
-            label: 'Reports',
-            data: <%= JSON.stringify(chartData.monthlyValues) %>,
-            borderColor: '#007bff',
-            backgroundColor: 'rgba(0, 123, 255, 0.1)',
-            tension: 0.4,
-            fill: true
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: { display: false }
-        },
-        scales: {
-            y: { 
-                beginAtZero: true,
-                ticks: { color: textColor },
-                grid: { color: isDarkMode ? '#444' : '#e0e0e0' }
+        // Status Pie Chart
+        const statusCtx = document.getElementById('statusChart').getContext('2d');
+        new Chart(statusCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Pending', 'Assigned', 'Cleaned'],
+                datasets: [{
+                    data: [pendingReports, assignedReports, cleanedReports],
+                    backgroundColor: ['#ffc107', '#17a2b8', '#28a745']
+                }]
             },
-            x: { 
-                ticks: { color: textColor },
-                grid: { color: isDarkMode ? '#444' : '#e0e0e0' }
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                aspectRatio: 2,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { color: textColor }
+                    }
+                }
             }
-        }
-    }
-});
+        });
 
-// Donation Bar Chart
-const donationCtx = document.getElementById('donationChart').getContext('2d');
-new Chart(donationCtx, {
-    type: 'bar',
-    data: {
-        labels: <%- JSON.stringify(chartData.donationLabels) %>,
-        datasets: [{
-            label: 'Donations (INR)',
-            data: <%= JSON.stringify(chartData.donationValues) %>,
-            backgroundColor: '#764ba2'
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: { display: false }
-        },
-        scales: {
-            y: { 
-                beginAtZero: true,
-                ticks: { color: textColor },
-                grid: { color: isDarkMode ? '#444' : '#e0e0e0' }
+        // Monthly Trend Line Chart
+        const monthlyCtx = document.getElementById('monthlyChart').getContext('2d');
+        new Chart(monthlyCtx, {
+            type: 'line',
+            data: {
+                labels: monthlyLabels,
+                datasets: [{
+                    label: 'Reports',
+                    data: monthlyValues,
+                    borderColor: '#007bff',
+                    backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
             },
-            x: { 
-                ticks: { color: textColor },
-                grid: { color: isDarkMode ? '#444' : '#e0e0e0' }
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { color: textColor },
+                        grid: { color: gridColor }
+                    },
+                    x: {
+                        ticks: { color: textColor },
+                        grid: { color: gridColor }
+                    }
+                }
             }
-        }
-    }
-});
+        });
 
-// Team Performance Chart
-const teamCtx = document.getElementById('teamChart').getContext('2d');
-new Chart(teamCtx, {
-    type: 'bar',
-    data: {
-        labels: <%- JSON.stringify(chartData.teamLabels) %>,
-        datasets: [{
-            label: 'Cleaned Reports',
-            data: <%= JSON.stringify(chartData.teamValues) %>,
-            backgroundColor: '#17a2b8'
-        }]
-    },
-    options: {
-        responsive: true,
-        indexAxis: 'y',
-        plugins: {
-            legend: { display: false }
-        },
-        scales: {
-            x: { 
-                beginAtZero: true,
-                ticks: { color: textColor },
-                grid: { color: isDarkMode ? '#444' : '#e0e0e0' }
+        // Donation Bar Chart
+        const donationCtx = document.getElementById('donationChart').getContext('2d');
+        new Chart(donationCtx, {
+            type: 'bar',
+            data: {
+                labels: donationLabels,
+                datasets: [{
+                    label: 'Donations (INR)',
+                    data: donationValues,
+                    backgroundColor: '#764ba2'
+                }]
             },
-            y: { 
-                ticks: { color: textColor },
-                grid: { color: isDarkMode ? '#444' : '#e0e0e0' }
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { color: textColor },
+                        grid: { color: gridColor }
+                    },
+                    x: {
+                        ticks: { color: textColor },
+                        grid: { color: gridColor }
+                    }
+                }
             }
-        }
-    }
-});
-</script>
+        });
 
-<%- include('../partials/footer') %>
+        // Team Performance Chart
+        const teamCtx = document.getElementById('teamChart').getContext('2d');
+        new Chart(teamCtx, {
+            type: 'bar',
+            data: {
+                labels: teamLabels,
+                datasets: [{
+                    label: 'Cleaned Reports',
+                    data: teamValues,
+                    backgroundColor: '#17a2b8'
+                }]
+            },
+            options: {
+                responsive: true,
+                indexAxis: 'y',
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        ticks: { color: textColor },
+                        grid: { color: gridColor }
+                    },
+                    y: {
+                        ticks: { color: textColor },
+                        grid: { color: gridColor }
+                    }
+                }
+            }
+        });
+    </script>
+
+    <%- include('../partials/footer') %>

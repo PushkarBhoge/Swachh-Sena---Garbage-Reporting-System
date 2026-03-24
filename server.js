@@ -60,6 +60,8 @@ app.use(async (req, res, next) => {
     res.locals.userName = req.session.name;
   }
   res.locals.userRole = req.session.role;
+  res.locals.userEmail = req.session.email;
+  res.locals.subscriberEmail = req.session.subscriberEmail || null;
   next();
 });
 

@@ -42,7 +42,16 @@
                     <% reports.forEach(report => { %>
                         <tr>
                             <td data-label="Image">
-                                <img src="<%= report.beforeImage.url %>" alt="Before" style="width: 60px; height: 60px; object-fit: cover; cursor: pointer;" class="rounded" onclick="viewImage('<%= report.beforeImage.url %>')">
+                                <% if (report.beforeImages && report.beforeImages.length) { %>
+                                    <div style="position:relative;display:inline-block;cursor:pointer;" onclick="openSlideshow(<%= JSON.stringify(report.beforeImages.map(i=>i.url)) %>, 0)">
+                                        <img src="<%= report.beforeImages[0].url %>" alt="Before" style="width:72px;height:56px;object-fit:cover;border-radius:6px;display:block;">
+                                        <% if (report.beforeImages.length > 1) { %>
+                                            <span style="position:absolute;bottom:3px;right:3px;background:rgba(0,0,0,0.6);color:#fff;font-size:0.65rem;font-weight:700;border-radius:4px;padding:1px 5px;line-height:1.4;">
+                                                <i class="fas fa-images"></i> <%= report.beforeImages.length %>
+                                            </span>
+                                        <% } %>
+                                    </div>
+                                <% } %>
                             </td>
                             <td data-label="Location" style="vertical-align: middle;">
                                 <div style="display: flex; flex-direction: column; gap: 2px; line-height: 1.3;">
@@ -96,13 +105,28 @@
                                                 </select>
                                             </div>
                                             <div class="mb-3 <%= report.status === 'Cleaned' ? '' : 'd-none' %>" id="afterImageField<%= report._id %>">
-                                                <label class="form-label">After Cleaning Image</label>
-                                                <div class="input-group">
-                                                    <input type="file" name="afterImage" id="afterImage<%= report._id %>" class="form-control" accept="image/*" onchange="showPreviewIcon(this, '<%= report._id %>')">
-                                                    <button type="button" class="btn btn-outline-secondary" id="afterPreviewBtn<%= report._id %>" style="display: none;" onclick="previewImage('afterImage<%= report._id %>')">
-                                                        <i class="fas fa-eye"></i>
-                                                    </button>
+                                                <label class="form-label"><i class="fas fa-image me-1" style="color:#28a745;"></i>After Cleaning Images</label>
+                                                <div id="uploadZone_<%= report._id %>" style="border:2px dashed #28a745;border-radius:16px;padding:1.5rem;text-align:center;cursor:pointer;background:rgba(40,167,69,0.04);transition:all 0.3s ease;" onclick="document.getElementById('afterImages<%= report._id %>').click()">
+                                                    <div id="uploadPlaceholder_<%= report._id %>">
+                                                        <div style="width:44px;height:44px;background:rgba(40,167,69,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 0.5rem;">
+                                                            <i class="fas fa-cloud-upload-alt" style="font-size:1.2rem;color:#28a745;"></i>
+                                                        </div>
+                                                        <p style="font-weight:600;color:var(--text-secondary);margin:0 0 2px;font-size:0.9rem;">Click to upload or drag & drop</p>
+                                                        <p style="color:var(--text-muted);font-size:0.75rem;margin:0;">PNG, JPG · Multiple allowed</p>
+                                                    </div>
+                                                    <input type="file" name="afterImages" id="afterImages<%= report._id %>" accept="image/*" multiple style="display:none;" onchange="adminShowChips(this, '<%= report._id %>')">
                                                 </div>
+                                                <div id="adminChipsWrap_<%= report._id %>" style="display:none;margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;"></div>
+                                                <% if (report.afterImages && report.afterImages.length) { %>
+                                                    <div class="mt-2" style="position:relative;display:inline-block;cursor:pointer;" onclick="openSlideshow(<%= JSON.stringify(report.afterImages.map(i=>i.url)) %>, 0)">
+                                                        <img src="<%= report.afterImages[0].url %>" alt="After" style="width:72px;height:56px;object-fit:cover;border-radius:6px;display:block;">
+                                                        <% if (report.afterImages.length > 1) { %>
+                                                            <span style="position:absolute;bottom:3px;right:3px;background:rgba(0,0,0,0.6);color:#fff;font-size:0.65rem;font-weight:700;border-radius:4px;padding:1px 5px;line-height:1.4;">
+                                                                <i class="fas fa-images"></i> <%= report.afterImages.length %>
+                                                            </span>
+                                                        <% } %>
+                                                    </div>
+                                                <% } %>
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Admin Remarks</label>
@@ -129,16 +153,19 @@
     <% } %>
 </div>
 
-<!-- Image View Modal -->
-<div class="modal fade" id="imageViewModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
+<!-- Slideshow Modal -->
+<div class="modal fade" id="slideshowModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">View Image</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            <div class="modal-header" style="background:linear-gradient(135deg,#28a745,#20c997);border:none">
+                <h5 class="modal-title text-white fw-bold"><i class="fas fa-images me-2"></i>View Images</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body text-center">
-                <img id="modalImage" src="" class="img-fluid" alt="Image">
+            <div class="modal-body text-center p-2" style="position:relative;min-height:300px">
+                <img id="ssImg" src="" class="img-fluid rounded" style="max-height:65vh">
+                <button onclick="ssNav(-1)" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);background:rgba(40,167,69,0.15);border:1px solid rgba(40,167,69,0.3);color:var(--text-primary);font-size:1.8rem;border-radius:50%;width:42px;height:42px;cursor:pointer">&#8249;</button>
+                <button onclick="ssNav(1)"  style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:rgba(40,167,69,0.15);border:1px solid rgba(40,167,69,0.3);color:var(--text-primary);font-size:1.8rem;border-radius:50%;width:42px;height:42px;cursor:pointer">&#8250;</button>
+                <div id="ssCtr" style="color:var(--text-muted);font-size:0.85rem;margin-top:6px"></div>
             </div>
         </div>
     </div>
@@ -148,7 +175,6 @@
 function toggleFields(selectElement, reportId) {
     const afterImageField = document.getElementById('afterImageField' + reportId);
     const teamField = document.getElementById('teamField' + reportId);
-    
     if (selectElement.value === 'Cleaned') {
         afterImageField.classList.remove('d-none');
         teamField.classList.remove('d-none');
@@ -161,32 +187,95 @@ function toggleFields(selectElement, reportId) {
     }
 }
 
-function viewImage(imageUrl) {
-    document.getElementById('modalImage').src = imageUrl;
-    new bootstrap.Modal(document.getElementById('imageViewModal')).show();
+function openSlideshow(urls, start) {
+    window._ssU = urls; window._ssI = start;
+    const render = () => { document.getElementById('ssImg').src = window._ssU[window._ssI]; document.getElementById('ssCtr').textContent = (window._ssI+1)+' / '+window._ssU.length; };
+    window.ssNav = d => { window._ssI = (window._ssI+d+window._ssU.length)%window._ssU.length; render(); };
+    render();
+    new bootstrap.Modal(document.getElementById('slideshowModal')).show();
 }
 
-function showPreviewIcon(input, reportId = '') {
-    const btnId = reportId ? `afterPreviewBtn${reportId}` : 'previewBtn';
-    const btn = document.getElementById(btnId);
-    if (input.files && input.files[0]) {
-        btn.style.display = 'block';
-    } else {
-        btn.style.display = 'none';
-    }
+const _aDT = {}, _aURLs = {};
+
+function adminRemoveFile(rid, i) {
+    _aURLs[rid].splice(i, 1);
+    const newDT = new DataTransfer();
+    Array.from(_aDT[rid].files).forEach((f, j) => { if (j !== i) newDT.items.add(f); });
+    _aDT[rid] = newDT;
+    document.getElementById('afterImages' + rid).files = _aDT[rid].files;
+    adminRebuildChips(rid);
 }
 
-function previewImage(inputId) {
-    const input = document.getElementById(inputId) || document.querySelector(`input[name="${inputId}"]`);
-    if (input && input.files && input.files[0]) {
+function adminRebuildChips(rid) {
+    const wrap = document.getElementById('adminChipsWrap_' + rid);
+    const zone = document.getElementById('uploadZone_' + rid);
+    wrap.innerHTML = '';
+    if (!_aDT[rid] || !_aDT[rid].files.length) { wrap.style.display = 'none'; zone.style.borderColor = '#28a745'; zone.style.background = 'rgba(40,167,69,0.04)'; return; }
+    wrap.style.display = 'flex';
+    Array.from(_aDT[rid].files).forEach((file, i) => {
+        const chip = document.createElement('span');
+        chip.style.cssText = 'display:inline-flex;align-items:center;gap:6px;background:rgba(40,167,69,0.1);color:#198754;border-radius:50px;padding:4px 10px;font-size:0.8rem;font-weight:600;border:1px solid rgba(40,167,69,0.2);';
+        const nameSpan = document.createElement('span');
+        nameSpan.style.cursor = 'pointer';
+        nameSpan.innerHTML = '<i class="fas fa-image me-1"></i>' + file.name;
+        nameSpan.onclick = e => { e.stopPropagation(); openAdminPreview(_aURLs[rid], i); };
+        const removeBtn = document.createElement('span');
+        removeBtn.innerHTML = '&times;';
+        removeBtn.style.cssText = 'display:none;cursor:pointer;font-size:1rem;line-height:1;color:#dc3545;font-weight:700;padding:0 2px;';
+        removeBtn.onclick = e => { e.stopPropagation(); adminRemoveFile(rid, i); };
+        chip.appendChild(nameSpan); chip.appendChild(removeBtn);
+        chip.addEventListener('mouseenter', () => removeBtn.style.display = 'inline');
+        chip.addEventListener('mouseleave', () => removeBtn.style.display = 'none');
+        wrap.appendChild(chip);
+    });
+}
+
+function adminShowChips(input, rid) {
+    if (!input.files || !input.files.length) return;
+    if (!_aDT[rid]) { _aDT[rid] = new DataTransfer(); _aURLs[rid] = []; }
+    const zone = document.getElementById('uploadZone_' + rid);
+    zone.style.borderColor = '#20c997'; zone.style.background = 'rgba(32,201,151,0.06)';
+    Array.from(input.files).forEach(file => {
+        _aDT[rid].items.add(file);
+        const idx = _aURLs[rid].length; _aURLs[rid].push(null);
         const reader = new FileReader();
-        reader.onload = function(e) {
-            document.getElementById('modalImage').src = e.target.result;
-            new bootstrap.Modal(document.getElementById('imageViewModal')).show();
-        };
-        reader.readAsDataURL(input.files[0]);
-    }
+        reader.onload = e => { _aURLs[rid][idx] = e.target.result; };
+        reader.readAsDataURL(file);
+    });
+    input.files = _aDT[rid].files;
+    adminRebuildChips(rid);
 }
+
+function openAdminPreview(urls, start) {
+    let idx = start;
+    const el = document.createElement('div');
+    el.className = 'modal fade'; el.tabIndex = -1;
+    el.innerHTML = `<div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
+        <div class="modal-header" style="background:linear-gradient(135deg,#28a745,#20c997);border:none">
+            <h5 class="modal-title text-white fw-bold"><i class="fas fa-images me-2"></i>Preview</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body text-center p-2" style="position:relative;min-height:300px">
+            <img id="apImg" src="" class="img-fluid rounded" style="max-height:65vh">
+            <button onclick="apNav(-1)" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);background:rgba(40,167,69,0.15);border:1px solid rgba(40,167,69,0.3);color:var(--text-primary);font-size:1.8rem;border-radius:50%;width:42px;height:42px;cursor:pointer">&#8249;</button>
+            <button onclick="apNav(1)"  style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:rgba(40,167,69,0.15);border:1px solid rgba(40,167,69,0.3);color:var(--text-primary);font-size:1.8rem;border-radius:50%;width:42px;height:42px;cursor:pointer">&#8250;</button>
+            <div id="apCtr" style="color:var(--text-muted);font-size:0.85rem;margin-top:6px"></div>
+        </div></div></div>`;
+    document.body.appendChild(el);
+    const modal = new bootstrap.Modal(el);
+    window._apU = urls; window._apI = idx;
+    const render = () => { document.getElementById('apImg').src = window._apU[window._apI]; document.getElementById('apCtr').textContent = (window._apI+1)+' / '+window._apU.length; };
+    window.apNav = d => { window._apI = (window._apI+d+window._apU.length)%window._apU.length; render(); };
+    render(); modal.show();
+    el.addEventListener('hidden.bs.modal', () => el.remove());
+}
+
+document.querySelectorAll('[id^="uploadZone_"]').forEach(zone => {
+    const rid = zone.id.replace('uploadZone_', '');
+    zone.addEventListener('dragover', e => { e.preventDefault(); zone.style.borderColor='#20c997'; zone.style.background='rgba(32,201,151,0.08)'; });
+    zone.addEventListener('dragleave', () => { zone.style.borderColor='#28a745'; zone.style.background='rgba(40,167,69,0.04)'; });
+    zone.addEventListener('drop', e => { e.preventDefault(); const inp = document.getElementById('afterImages'+rid); inp.files = e.dataTransfer.files; adminShowChips(inp, rid); });
+});
 </script>
 
 <script>

@@ -22,4 +22,7 @@ const uploadToCloudinary = (buffer) => {
   });
 };
 
-module.exports = { cloudinary, upload, uploadToCloudinary };
+const uploadMultiple = (files) =>
+  Promise.all((files || []).map(f => uploadToCloudinary(f.buffer)));
+
+module.exports = { cloudinary, upload, uploadToCloudinary, uploadMultiple };

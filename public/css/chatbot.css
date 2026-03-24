@@ -333,6 +333,13 @@ body.admin-page .chatbot-widget {
   box-shadow: 0 8px 32px rgba(0,0,0,0.4);
 }
 
+/* Keep minimized button the same green gradient in dark mode */
+[data-theme="dark"] .chatbot-widget.minimized {
+  background: linear-gradient(145deg, #28a745 0%, #20c997 100%);
+  border: none;
+  box-shadow: 0 6px 24px rgba(40, 167, 69, 0.45), 0 2px 8px rgba(0,0,0,0.15);
+}
+
 [data-theme="dark"] .chatbot-messages {
   background: #161616;
 }

@@ -5,85 +5,160 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Swachh Sena - <%= title %></title>
     <link rel="icon" href="/assets/logo-eng.png" type="image/png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Custom Styles -->
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/chatbot.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+    <!-- ════════ NAVBAR ════════ -->
+    <nav class="navbar navbar-expand-xl navbar-dark">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="/">
-                <img src="<%= language === 'mr' ? '/assets/logo-mr.png' : '/assets/logo-eng.png' %>" alt="Logo" height="50" class="me-2">
-                <%= t('Swachh Sena') %>
+            <!-- Brand -->
+            <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+                <img src="<%= language === 'mr' ? '/assets/logo-mr.png' : '/assets/logo-eng.png' %>"
+                     alt="Logo" height="46" class="me-1">
+                <span style="font-weight:800; letter-spacing:-0.3px;"><%= t('Swachh Sena') %></span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+
+            <!-- Mobile toggler -->
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
+            <!-- Nav links -->
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
                     <li class="nav-item">
-                        <a class="nav-link <%= title === 'Garbage Reporting System' ? 'active' : '' %>" href="/"><%= t('Home') %></a>
+                        <a class="nav-link <%= title === 'Garbage Reporting System' ? 'active' : '' %>" href="/">
+                            <i class="fas fa-home me-1 d-lg-none"></i><%= t('Home') %>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= title === 'Our Work' ? 'active' : '' %>" href="/our-work"><%= t('Our Work') %></a>
+                        <a class="nav-link <%= title === 'Our Work' ? 'active' : '' %>" href="/our-work">
+                            <i class="fas fa-leaf me-1 d-lg-none"></i><%= t('Our Work') %>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= title === 'Report Garbage' ? 'active' : '' %>" href="/report"><%= t('Report Garbage') %></a>
+                        <a class="nav-link <%= title === 'Report Garbage' ? 'active' : '' %>" href="/report">
+                            <i class="fas fa-flag me-1 d-lg-none"></i><%= t('Report Garbage') %>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= title === 'View Reports' ? 'active' : '' %>" href="/reports"><%= t('View Reports') %></a>
+                        <a class="nav-link <%= title === 'View Reports' ? 'active' : '' %>" href="/reports">
+                            <i class="fas fa-list me-1 d-lg-none"></i><%= t('View Reports') %>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= title === 'Blogs' ? 'active' : '' %>" href="/blogs"><%= t('Blogs') %></a>
+                        <a class="nav-link <%= title === 'Blogs' ? 'active' : '' %>" href="/blogs">
+                            <i class="fas fa-newspaper me-1 d-lg-none"></i><%= t('Blogs') %>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= title === 'Create Blog' ? 'active' : '' %>" href="/create-blog"><%= t('Create Blog') %></a>
+                        <a class="nav-link <%= title === 'Create Blog' ? 'active' : '' %>" href="/create-blog">
+                            <i class="fas fa-pen me-1 d-lg-none"></i><%= t('Create Blog') %>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= title === 'Donate' ? 'active' : '' %>" href="/donate"><%= t('Donate') %></a>
+                        <a class="nav-link <%= title === 'Donate' ? 'active' : '' %>" href="/donate">
+                            <i class="fas fa-heart me-1 d-lg-none"></i><%= t('Donate') %>
+                        </a>
                     </li>
+
+                    <!-- Language Selector -->
                     <li class="nav-item d-flex align-items-center ms-lg-2 mt-2 mt-lg-0">
-                        <select class="form-select form-select-sm lang-selector" id="languageSelector">
-                            <option value="en" <%= language === 'en' ? 'selected' : '' %>>English</option>
-                            <option value="mr" <%= language === 'mr' ? 'selected' : '' %>>मराठी</option>
-                        </select>
+                        <div class="lang-dropdown dropdown">
+                            <button class="lang-btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                🌐 <%= language === 'mr' ? 'मर' : 'EN' %>
+                            </button>
+                            <ul class="dropdown-menu lang-menu dropdown-menu-end">
+                                <li><a class="dropdown-item lang-option <%= language === 'en' ? 'active' : '' %>" href="#" data-lang="en">🌐 English</a></li>
+                                <li><a class="dropdown-item lang-option <%= language === 'mr' ? 'active' : '' %>" href="#" data-lang="mr">🌐 मराठी</a></li>
+                            </ul>
+                        </div>
                     </li>
+
+                    <!-- Theme Toggle -->
                     <li class="nav-item d-flex align-items-center ms-2">
-                        <button type="button" class="btn btn-outline-light" id="themeToggle">
+                        <button type="button" class="btn btn-outline-light" id="themeToggle" title="Toggle theme">
                             <i class="fas fa-moon" id="themeIcon"></i>
                         </button>
                     </li>
+
+                    <!-- User Dropdown / Login -->
                     <% if (typeof userId !== 'undefined' && userId) { %>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-                                <span class="user-avatar"><%= (userName || 'U').charAt(0).toUpperCase() %></span>
-                                <span class="d-none d-lg-inline"><%= userName || t('User') %></span>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end user-dropdown">
-                                <li class="user-dropdown-header">
-                                    <div class="user-avatar-lg"><%= (userName || 'U').charAt(0).toUpperCase() %></div>
-                                    <div class="user-dropdown-name"><%= userName || t('User') %></div>
-                                </li>
-                                <li><hr class="dropdown-divider my-1"></li>
-                                <% if (userRole === 'user') { %>
-                                    <li><a class="dropdown-item" href="/auth/profile"><i class="fas fa-user-edit me-2"></i><%= t('My Profile') %></a></li>
-                                    <% if (typeof subscriberEmail !== 'undefined' && subscriberEmail) { %>
-                                        <li><a class="dropdown-item" href="#" id="unsubscribeBtn"><i class="fas fa-bell-slash me-2"></i><%= t('Unsubscribe') %></a></li>
-                                    <% } else { %>
-                                        <li><a class="dropdown-item" href="#" id="subscribeBtn"><i class="fas fa-bell me-2"></i><%= t('Subscribe') %></a></li>
+                        <li class="nav-item d-flex align-items-center ms-lg-2 mt-2 mt-lg-0">
+                            <div class="lang-dropdown dropdown">
+                                <button class="lang-btn dropdown-toggle d-flex align-items-center gap-2" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="user-avatar" style="width:24px;height:24px;font-size:0.7rem;"><%= (userName || 'U').charAt(0).toUpperCase() %></span>
+                                    <%= userName || t('User') %>
+                                </button>
+                                <ul class="dropdown-menu lang-menu dropdown-menu-end" style="min-width:180px;">
+                                    <% if (userRole === 'user') { %>
+                                        <li>
+                                            <a class="dropdown-item" href="/auth/profile">
+                                                <i class="fas fa-user-edit me-2 text-success"></i><%= t('My Profile') %>
+                                            </a>
+                                        </li>
+                                        <% if (typeof subscriberEmail !== 'undefined' && subscriberEmail) { %>
+                                            <li>
+                                                <a class="dropdown-item" href="#" id="unsubscribeBtn">
+                                                    <i class="fas fa-bell-slash me-2"></i><%= t('Unsubscribe') %>
+                                                </a>
+                                            </li>
+                                        <% } else { %>
+                                            <li>
+                                                <a class="dropdown-item" href="#" id="subscribeBtn">
+                                                    <i class="fas fa-bell me-2 text-success"></i><%= t('Subscribe') %>
+                                                </a>
+                                            </li>
+                                        <% } %>
+                                        <li><hr class="dropdown-divider my-1"></li>
                                     <% } %>
-                                    <li><hr class="dropdown-divider my-1"></li>
-                                <% } %>
-                                <li><a class="dropdown-item dropdown-item-danger" href="/auth/logout"><i class="fas fa-sign-out-alt me-2"></i><%= t('Logout') %></a></li>
-                            </ul>
+                                    <li>
+                                        <a class="dropdown-item" href="/auth/logout" style="color:#dc3545;">
+                                            <i class="fas fa-sign-out-alt me-2"></i><%= t('Logout') %>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
                     <% } else { %>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/auth/login"><%= t('Login') %></a>
+                        <li class="nav-item ms-lg-1 d-flex align-items-center gap-2">
+                            <a class="btn btn-light btn-sm px-3" href="#" onclick="openAuthModal('login'); return false;"
+                               style="font-weight:600; border-radius:50px;">
+                                <i class="fas fa-sign-in-alt me-1"></i><%= t('Login') %>
+                            </a>
+                            <a class="btn btn-outline-light btn-sm px-3" href="#" onclick="openAuthModal('signup'); return false;"
+                               style="font-weight:600; border-radius:50px;">
+                                <i class="fas fa-user-plus me-1"></i><%= t('Sign Up') %>
+                            </a>
                         </li>
                     <% } %>
                 </ul>
             </div>
         </div>
     </nav>
+
+    <!-- Scroll-aware navbar script -->
+    <script>
+    (function() {
+        const nav = document.querySelector('.navbar');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 40) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+    })();
+    </script>

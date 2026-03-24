@@ -9,6 +9,8 @@ const isAuthenticated = (req, res, next) => {
 const isUser = (req, res, next) => {
   if (req.session.userId && req.session.role === 'user') {
     next();
+  } else if (req.session.role === 'admin') {
+    res.redirect('/admin/dashboard');
   } else {
     res.redirect('/auth/login');
   }

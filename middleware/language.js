@@ -9,15 +9,20 @@ const languageMiddleware = (req, res, next) => {
   next();
 };
 
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
 const translateText = async (text, targetLang) => {
-  if (targetLang === 'en' || !text) return text;
+  if (targetLang === 'en' || !text || text.trim().length === 0) return text;
   try {
-    const result = await translate(text, { to: targetLang });
-    return result.text;
+    const result = await translate(text, {
+      to: targetLang,
+      rejectOnPartialFail: false,
+      forceBatch: false
+    });
+    return result.text || text;
   } catch (error) {
-    console.error('Translation error:', error);
     return text;
   }
 };
 
-module.exports = { languageMiddleware, translateText };
+module.exports = { languageMiddleware, translateText, sleep };

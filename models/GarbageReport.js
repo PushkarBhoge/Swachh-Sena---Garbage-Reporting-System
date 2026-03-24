@@ -1,14 +1,13 @@
 const mongoose = require('mongoose');
 
+const imageSchema = { url: String, public_id: String };
+
 const garbageReportSchema = new mongoose.Schema({
-  beforeImage: {
-    url: { type: String, required: true },
-    public_id: { type: String, required: true }
+  beforeImages: {
+    type: [imageSchema],
+    validate: v => v.length > 0
   },
-  afterImage: {
-    url: String,
-    public_id: String
-  },
+  afterImages: [imageSchema],
   location: {
     area: { type: String, required: true },
     landmark: { type: String, required: true },
@@ -17,6 +16,7 @@ const garbageReportSchema = new mongoose.Schema({
   },
   description: { type: String, required: true },
   reportedBy: { type: String },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   status: {
     type: String,
     enum: ['Pending', 'Assigned', 'Cleaned'],

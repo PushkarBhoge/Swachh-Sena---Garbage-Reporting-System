@@ -1,19 +1,137 @@
-    <footer class="bg-dark text-white text-center py-3 mt-auto">
+    <!-- ════════ FOOTER ════════ -->
+    <footer style="background: linear-gradient(135deg, #0f2417 0%, #1a3d28 100%); border-top: 2px solid rgba(40,167,69,0.3); color: rgba(255,255,255,0.85);" class="mt-auto py-5">
         <div class="container">
-            <% 
-            const formatYear = (year) => {
-                if (typeof language !== 'undefined' && language === 'mr') {
-                    const devanagariMap = {'0':'०','1':'१','2':'२','3':'३','4':'४','5':'५','6':'६','7':'७','8':'८','9':'९'};
-                    return year.toString().replace(/[0-9]/g, d => devanagariMap[d]);
-                }
-                return year;
-            };
-            %>
-            <p class="mb-0">&copy; <%= formatYear(2026) %> <%= t('Swachh Sena') %>. <%= t('All rights reserved.') %></p>
+            <div class="row g-4">
+                <!-- Brand Column -->
+                <div class="col-md-4">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <img src="<%= language === 'mr' ? '/assets/logo-mr.png' : '/assets/logo-eng.png' %>"
+                             alt="Swachh Sena Logo" height="44"
+                             style="filter: drop-shadow(0 2px 8px rgba(32,201,151,0.4));">
+                        <span style="font-family:'Inter',sans-serif; font-weight:800; font-size:1.2rem; color:white; letter-spacing:-0.3px;">
+                            <%= t('Swachh Sena') %>
+                        </span>
+                    </div>
+                    <p style="color:rgba(255,255,255,0.65); font-size:0.875rem; line-height:1.6; margin-bottom:1rem;">
+                        <%= t('A community-driven platform to report garbage, track cleanups, and keep our cities clean.') %>
+                    </p>
+                    <div class="d-flex gap-3">
+                        <a href="#" style="color:rgba(255,255,255,0.5); font-size:1.1rem; transition:color 0.2s;"
+                           onmouseover="this.style.color='#20c997'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" style="color:rgba(255,255,255,0.5); font-size:1.1rem; transition:color 0.2s;"
+                           onmouseover="this.style.color='#20c997'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" style="color:rgba(255,255,255,0.5); font-size:1.1rem; transition:color 0.2s;"
+                           onmouseover="this.style.color='#20c997'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" style="color:rgba(255,255,255,0.5); font-size:1.1rem; transition:color 0.2s;"
+                           onmouseover="this.style.color='#20c997'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="col-md-4">
+                    <h6 style="color:white; font-weight:700; font-size:0.85rem; letter-spacing:1px; text-transform:uppercase; margin-bottom:1rem; padding-bottom:8px; border-bottom:1px solid rgba(40,167,69,0.4);">
+                        <%= t('Quick Links') %>
+                    </h6>
+                    <ul class="list-unstyled mb-0" style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                        <li>
+                            <a href="/" style="color:rgba(255,255,255,0.65); text-decoration:none; font-size:0.875rem; transition:color 0.2s; display:flex; align-items:center; gap:6px;"
+                               onmouseover="this.style.color='#20c997'" onmouseout="this.style.color='rgba(255,255,255,0.65)'">
+                                <i class="fas fa-chevron-right" style="font-size:0.65rem; color:#28a745;"></i><%= t('Home') %>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/our-work" style="color:rgba(255,255,255,0.65); text-decoration:none; font-size:0.875rem; transition:color 0.2s; display:flex; align-items:center; gap:6px;"
+                               onmouseover="this.style.color='#20c997'" onmouseout="this.style.color='rgba(255,255,255,0.65)'">
+                                <i class="fas fa-chevron-right" style="font-size:0.65rem; color:#28a745;"></i><%= t('Our Work') %>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/report" style="color:rgba(255,255,255,0.65); text-decoration:none; font-size:0.875rem; transition:color 0.2s; display:flex; align-items:center; gap:6px;"
+                               onmouseover="this.style.color='#20c997'" onmouseout="this.style.color='rgba(255,255,255,0.65)'">
+                                <i class="fas fa-chevron-right" style="font-size:0.65rem; color:#28a745;"></i><%= t('Report') %>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/reports" style="color:rgba(255,255,255,0.65); text-decoration:none; font-size:0.875rem; transition:color 0.2s; display:flex; align-items:center; gap:6px;"
+                               onmouseover="this.style.color='#20c997'" onmouseout="this.style.color='rgba(255,255,255,0.65)'">
+                                <i class="fas fa-chevron-right" style="font-size:0.65rem; color:#28a745;"></i><%= t('View Reports') %>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/blogs" style="color:rgba(255,255,255,0.65); text-decoration:none; font-size:0.875rem; transition:color 0.2s; display:flex; align-items:center; gap:6px;"
+                               onmouseover="this.style.color='#20c997'" onmouseout="this.style.color='rgba(255,255,255,0.65)'">
+                                <i class="fas fa-chevron-right" style="font-size:0.65rem; color:#28a745;"></i><%= t('Blogs') %>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/donate" style="color:rgba(255,255,255,0.65); text-decoration:none; font-size:0.875rem; transition:color 0.2s; display:flex; align-items:center; gap:6px;"
+                               onmouseover="this.style.color='#20c997'" onmouseout="this.style.color='rgba(255,255,255,0.65)'">
+                                <i class="fas fa-chevron-right" style="font-size:0.65rem; color:#28a745;"></i><%= t('Donate') %>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Contact / Info -->
+                <div class="col-md-4">
+                    <h6 style="color:white; font-weight:700; font-size:0.85rem; letter-spacing:1px; text-transform:uppercase; margin-bottom:1rem; padding-bottom:8px; border-bottom:1px solid rgba(40,167,69,0.4);">
+                        <%= t('Get In Touch') %>
+                    </h6>
+                    <ul class="list-unstyled mb-0" style="display:flex; flex-direction:column; gap:10px;">
+                        <li style="display:flex; align-items:flex-start; gap:10px;">
+                            <span style="color:#20c997; margin-top:2px; flex-shrink:0;"><i class="fas fa-envelope"></i></span>
+                            <span style="color:rgba(255,255,255,0.65); font-size:0.875rem;">contact@swachchsena.org</span>
+                        </li>
+                        <li style="display:flex; align-items:flex-start; gap:10px;">
+                            <span style="color:#20c997; margin-top:2px; flex-shrink:0;"><i class="fas fa-phone"></i></span>
+                            <span style="color:rgba(255,255,255,0.65); font-size:0.875rem;">+91 98765 43210</span>
+                        </li>
+                        <li style="display:flex; align-items:flex-start; gap:10px;">
+                            <span style="color:#20c997; margin-top:2px; flex-shrink:0;"><i class="fas fa-map-marker-alt"></i></span>
+                            <span style="color:rgba(255,255,255,0.65); font-size:0.875rem;"><%= t('Maharashtra, India') %></span>
+                        </li>
+                    </ul>
+                    <!-- Mini badge -->
+                    <div style="margin-top:1.25rem;">
+                        <span style="background:rgba(40,167,69,0.2); border:1px solid rgba(40,167,69,0.4); color:#20c997; border-radius:50px; padding:5px 14px; font-size:0.78rem; font-weight:600; letter-spacing:0.5px;">
+                            <i class="fas fa-leaf me-1"></i> <%= t('Green Earth Initiative') %>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div style="margin-top:2rem; padding-top:1.25rem; border-top:1px solid rgba(255,255,255,0.08); display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:10px;">
+                <% 
+                const formatYear = (year) => {
+                    if (typeof language !== 'undefined' && language === 'mr') {
+                        const devanagariMap = {'0':'०','1':'१','2':'२','3':'३','4':'४','5':'५','6':'६','7':'७','8':'८','9':'९'};
+                        return year.toString().replace(/[0-9]/g, d => devanagariMap[d]);
+                    }
+                    return year;
+                };
+                %>
+                <p style="margin:0; color:rgba(255,255,255,0.45); font-size:0.8rem;">
+                    &copy; <%= formatYear(2026) %> <%= t('Swachh Sena') %>.
+                    <%= t('All rights reserved.') %>
+                </p>
+                <p style="margin:0; color:rgba(255,255,255,0.35); font-size:0.78rem;">
+                    <%= t('Made with') %> <span style="color:#28a745;">♥</span> <%= t('for a Cleaner India') %>
+                </p>
+            </div>
         </div>
     </footer>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <%- include('./auth-modal') %>
     <script src="/js/main.js"></script>
     <script src="/js/chatbot.js"></script>
     
@@ -76,35 +194,35 @@
         const toast = document.createElement('div');
         toast.style.cssText = `
             position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 20px;
-            background: ${type === 'success' ? '#28a745' : '#dc3545'};
+            top: 22px;
+            right: 22px;
+            padding: 16px 22px;
+            background: ${type === 'success' ? 'linear-gradient(135deg,#28a745,#20c997)' : 'linear-gradient(135deg,#dc3545,#e8636f)'};
             color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border-radius: 14px;
+            box-shadow: 0 8px 28px rgba(0,0,0,0.25);
             z-index: 9999;
-            animation: slideIn 0.3s ease-out;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            animation: slideIn 0.35s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         `;
-        toast.textContent = message;
+        toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i> ${message}`;
         document.body.appendChild(toast);
         
         setTimeout(() => {
-            toast.style.animation = 'slideOut 0.3s ease-out';
+            toast.style.animation = 'slideOut 0.3s ease-out forwards';
             setTimeout(() => toast.remove(), 300);
         }, 3000);
     }
     </script>
     
     <style>
-    @keyframes slideIn {
-        from { transform: translateX(400px); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
-    }
-    @keyframes slideOut {
-        from { transform: translateX(0); opacity: 1; }
-        to { transform: translateX(400px); opacity: 0; }
-    }
+    @keyframes slideIn  { from { transform:translateX(400px); opacity:0; } to { transform:translateX(0); opacity:1; } }
+    @keyframes slideOut { from { transform:translateX(0); opacity:1; } to { transform:translateX(400px); opacity:0; } }
     </style>
 </body>
 </html>

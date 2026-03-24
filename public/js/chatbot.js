@@ -80,6 +80,11 @@ class ChatbotWidget {
   async loadHistory() {
     try {
       const response = await fetch('/api/chat/history');
+      if (response.status === 403) {
+        this.displayMessage('👋 Hi! I am your Swachh Sena assistant.\n\nI can help you with:\n• How to report garbage in your area\n• Checking the status of your complaints\n• Learning about our cleanup work\n• Donating to support us\n\nWhat would you like to know?', 'bot');
+        this.setGuestMode(true);
+        return;
+      }
       const data = await response.json();
       if (data.success && data.messages && data.messages.length > 0) {
         data.messages.forEach(msg => {
@@ -91,6 +96,15 @@ class ChatbotWidget {
     } catch (error) {
       console.error('Failed to load chat history:', error);
     }
+  }
+
+  setGuestMode(isGuest) {
+    if (!isGuest) return;
+    this.isGuest = true;
+    this.input.placeholder = 'Login to chat...';
+    this.input.disabled = true;
+    this.sendBtn.disabled = true;
+    this.widget.querySelector('#clearChatBtn').style.display = 'none';
   }
 
   displayMessage(message, sender) {
@@ -124,7 +138,7 @@ class ChatbotWidget {
 
   async sendMessage() {
     const message = this.input.value.trim();
-    if (!message || this.isLoading) return;
+    if (!message || this.isLoading || this.isGuest) return;
 
     this.isLoading = true;
     this.sendBtn.disabled = true;

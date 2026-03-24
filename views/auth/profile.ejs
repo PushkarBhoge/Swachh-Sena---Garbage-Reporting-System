@@ -1,228 +1,396 @@
 <%- include('../partials/header') %>
-<link rel="stylesheet" href="/css/auth.css">
+    <link rel="stylesheet" href="/css/auth.css">
 
-<div class="container my-5">
-    <div class="row">
-        <!-- Left Column - Profile Info -->
-        <div class="col-lg-6 mb-4">
-            <div class="card profile-card">
-                <div class="profile-header">
-                    <i class="fas fa-user-circle"></i>
-                    <h2><%= t('My Profile') %></h2>
-                </div>
-                <div class="card-body p-4">
+    <div class="container my-5">
 
-                    <% if (success) { %>
-                        <div class="alert alert-success alert-dismissible fade show auth-alert" role="alert">
-                            <%= t('Profile updated successfully') %>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <!-- ═══ PAGE HEADER ═══ -->
+        <div class="text-center mb-5">
+            <!-- Avatar Circle -->
+            <div style="
+            width: 90px; height: 90px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            border-radius: 50%;
+            display: inline-flex; align-items: center; justify-content: center;
+            font-size: 2.5rem; font-weight: 800; color: white;
+            box-shadow: 0 8px 28px rgba(40,167,69,0.35);
+            margin-bottom: 1rem;
+            border: 4px solid rgba(40,167,69,0.15);
+        ">
+                <%= (userName || user.name || 'U').charAt(0).toUpperCase() %>
+            </div>
+            <h2 style="font-weight: 800; color: var(--text-primary); margin-bottom: 4px;">
+                <%= userName || user.name %>
+            </h2>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin: 0;">
+                <i class="fas fa-envelope me-1" style="color:#28a745;"></i>
+                <%= userEmail || user.email %>
+                    &nbsp;·&nbsp;
+                    <span
+                        style="background: rgba(40,167,69,0.1); color:#198754; border-radius:50px; padding: 2px 10px; font-size:0.78rem; font-weight:600;">
+                        <i class="fas fa-shield-alt me-1"></i><%= t('Member') %>
+                    </span>
+            </p>
+        </div>
+
+        <div class="row g-4">
+
+            <!-- ════ LEFT – Profile Form ════ -->
+            <div class="col-lg-6">
+                <div class="card" style="border-radius:24px !important; box-shadow:0 12px 40px rgba(40,167,69,0.1);">
+
+                    <!-- Card Header -->
+                    <div class="card-header"
+                        style="background:linear-gradient(135deg,#28a745,#20c997) !important; border:none !important; border-radius:24px 24px 0 0 !important; padding:1.1rem 1.5rem;">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fas fa-user-edit text-white"></i>
+                            <h5 class="mb-0 text-white" style="font-weight:700;">
+                                <%= t('My Profile') %>
+                            </h5>
                         </div>
-                    <% } %>
-                    <% if (error) { %>
-                        <div class="alert alert-danger auth-alert"><%= error %></div>
-                    <% } %>
+                    </div>
 
-                    <form action="/auth/profile" method="POST" id="profileForm">
-                        <div class="mb-3">
-                            <label class="form-label"><%= t('Name') %> <span style="color: red;">*</span></label>
-                            <input type="text" name="name" class="form-control profile-form-control" value="<%= user.name %>" required disabled>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label"><%= t('Email') %> <span style="color: red;">*</span></label>
-                            <input type="email" class="form-control profile-form-control" value="<%= user.email %>" disabled>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label"><%= t('Phone') %></label>
-                            <input type="tel" name="phone" class="form-control profile-form-control" value="<%= user.phone || '' %>" pattern="[0-9]{10}" maxlength="10" placeholder="10 digit phone number" disabled>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label"><%= t('Address') %></label>
-                            <input type="text" name="address" class="form-control profile-form-control" value="<%= user.address || '' %>" disabled>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label"><%= t('City') %></label>
-                                <input type="text" name="city" class="form-control profile-form-control" value="<%= user.city || '' %>" disabled>
+                    <div class="card-body p-4">
+                        <!-- Alerts -->
+                        <% if (success) { %>
+                            <div class="alert alert-success alert-dismissible fade show auth-alert" role="alert">
+                                <i class="fas fa-check-circle me-2"></i>
+                                <%= t('Profile updated successfully') %>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label"><%= t('State') %></label>
-                                <input type="text" name="state" class="form-control profile-form-control" value="<%= user.state || '' %>" disabled>
-                            </div>
-                        </div>
+                            <% } %>
+                                <% if (error) { %>
+                                    <div class="alert alert-danger auth-alert">
+                                        <i class="fas fa-exclamation-circle me-2"></i>
+                                        <%= error %>
+                                    </div>
+                                    <% } %>
 
-                        <div class="mb-3">
-                            <label class="form-label"><%= t('Pincode') %></label>
-                            <input type="text" name="pincode" class="form-control profile-form-control" value="<%= user.pincode || '' %>" pattern="[0-9]{6}" maxlength="6" disabled>
-                        </div>
+                                        <form action="/auth/profile" method="POST" id="profileForm">
+                                            <!-- Name -->
+                                            <div class="mb-3">
+                                                <label class="form-label">
+                                                    <i class="fas fa-user me-1" style="color:#28a745;"></i>
+                                                    <%= t('Name') %> <span style="color:red;">*</span>
+                                                </label>
+                                                <input type="text" name="name" class="form-control profile-form-control"
+                                                    value="<%= user.name %>" required disabled>
+                                            </div>
 
-                        <hr class="my-4">
-                        <h5 class="mb-3"><%= t('Change Password') %></h5>
+                                            <!-- Email -->
+                                            <div class="mb-3">
+                                                <label class="form-label">
+                                                    <i class="fas fa-envelope me-1" style="color:#28a745;"></i>
+                                                    <%= t('Email') %> <span style="color:red;">*</span>
+                                                </label>
+                                                <input type="email" class="form-control profile-form-control"
+                                                    value="<%= user.email %>" disabled>
+                                            </div>
 
-                        <div class="mb-3">
-                            <label class="form-label"><%= t('Current Password') %></label>
-                            <input type="password" name="currentPassword" class="form-control profile-form-control" disabled>
-                        </div>
+                                            <!-- Phone -->
+                                            <div class="mb-3">
+                                                <label class="form-label">
+                                                    <i class="fas fa-phone me-1" style="color:#28a745;"></i>
+                                                    <%= t('Phone') %>
+                                                </label>
+                                                <input type="tel" name="phone" class="form-control profile-form-control"
+                                                    value="<%= user.phone || '' %>" pattern="[0-9]{10}" maxlength="10"
+                                                    placeholder="<%= t('10 digit phone number') %>" disabled>
+                                            </div>
 
-                        <div class="mb-3">
-                            <label class="form-label"><%= t('New Password') %></label>
-                            <input type="password" name="newPassword" class="form-control profile-form-control" minlength="6" placeholder="Minimum 6 characters" disabled>
-                        </div>
+                                            <!-- Address -->
+                                            <div class="mb-3">
+                                                <label class="form-label">
+                                                    <i class="fas fa-map-marker-alt me-1" style="color:#28a745;"></i>
+                                                    <%= t('Address') %>
+                                                </label>
+                                                <input type="text" name="address"
+                                                    class="form-control profile-form-control"
+                                                    value="<%= user.address || '' %>" disabled>
+                                            </div>
 
-                        <button type="button" class="btn btn-primary profile-btn-primary w-100 mt-3" id="editBtn" onclick="enableEdit()">
-                            <i class="fas fa-edit"></i> <%= t('Edit Profile') %>
-                        </button>
-                        <button type="submit" class="btn btn-success profile-btn-success w-100 mt-3" id="saveBtn" style="display: none;">
-                            <i class="fas fa-save"></i> <%= t('Update Profile') %>
-                        </button>
-                        <button type="button" class="btn btn-secondary profile-btn-secondary w-100 mt-2" id="cancelBtn" style="display: none;" onclick="cancelEdit()">
-                            <i class="fas fa-times"></i> <%= t('Cancel') %>
-                        </button>
-                    </form>
+                                            <!-- City + State -->
+                                            <div class="row g-3 mb-3">
+                                                <div class="col-6">
+                                                    <label class="form-label">
+                                                        <i class="fas fa-city me-1" style="color:#28a745;"></i>
+                                                        <%= t('City') %>
+                                                    </label>
+                                                    <input type="text" name="city"
+                                                        class="form-control profile-form-control"
+                                                        value="<%= user.city || '' %>" disabled>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label class="form-label">
+                                                        <i class="fas fa-map me-1" style="color:#28a745;"></i>
+                                                        <%= t('State') %>
+                                                    </label>
+                                                    <input type="text" name="state"
+                                                        class="form-control profile-form-control"
+                                                        value="<%= user.state || '' %>" disabled>
+                                                </div>
+                                            </div>
 
-                    <div class="text-center mt-3">
-                        <a href="/" class="text-muted"><i class="fas fa-arrow-left"></i> <%= t('Back to Home') %></a>
+                                            <!-- Pincode -->
+                                            <div class="mb-3">
+                                                <label class="form-label">
+                                                    <i class="fas fa-hashtag me-1" style="color:#28a745;"></i>
+                                                    <%= t('Pincode') %>
+                                                </label>
+                                                <input type="text" name="pincode"
+                                                    class="form-control profile-form-control"
+                                                    value="<%= user.pincode || '' %>" pattern="[0-9]{6}" maxlength="6"
+                                                    disabled>
+                                            </div>
+
+                                            <!-- Divider – Change Password -->
+                                            <div style="position:relative; margin:1.5rem 0 1rem;">
+                                                <hr style="border-color:var(--border-light);">
+                                                <span
+                                                    style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:var(--surface); padding:0 12px; color:var(--text-secondary); font-size:0.82rem; font-weight:600; white-space:nowrap;">
+                                                    <i class="fas fa-lock me-1" style="color:#28a745;"></i>
+                                                    <%= t('Change Password') %>
+                                                </span>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label class="form-label">
+                                                    <i class="fas fa-key me-1" style="color:#28a745;"></i>
+                                                    <%= t('Current Password') %>
+                                                </label>
+                                                <input type="password" name="currentPassword"
+                                                    class="form-control profile-form-control" disabled>
+                                            </div>
+
+                                            <div class="mb-4">
+                                                <label class="form-label">
+                                                    <i class="fas fa-lock-open me-1" style="color:#28a745;"></i>
+                                                    <%= t('New Password') %>
+                                                </label>
+                                                <input type="password" name="newPassword"
+                                                    class="form-control profile-form-control" minlength="6"
+                                                    placeholder="<%= t('Minimum 6 characters') %>" disabled>
+                                            </div>
+
+                                            <!-- Action Buttons -->
+                                            <button type="button" class="btn btn-success w-100 mt-1" id="editBtn"
+                                                onclick="enableEdit()"
+                                                style="border-radius:50px; font-weight:700; padding:12px;">
+                                                <i class="fas fa-edit me-2"></i>
+                                                <%= t('Edit Profile') %>
+                                            </button>
+                                            <button type="submit" class="btn btn-success w-100 mt-2" id="saveBtn"
+                                                style="display:none; border-radius:50px; font-weight:700; padding:12px;">
+                                                <i class="fas fa-save me-2"></i>
+                                                <%= t('Update Profile') %>
+                                            </button>
+                                            <button type="button" class="btn btn-outline-secondary w-100 mt-2"
+                                                id="cancelBtn"
+                                                style="display:none; border-radius:50px; font-weight:600; padding:11px;"
+                                                onclick="cancelEdit()">
+                                                <i class="fas fa-times me-2"></i>
+                                                <%= t('Cancel') %>
+                                            </button>
+                                        </form>
+
+                                        <div class="text-center mt-4">
+                                            <a href="/"
+                                                style="color:var(--text-muted); text-decoration:none; font-size:0.875rem; font-weight:500; transition:color 0.2s;"
+                                                onmouseover="this.style.color='#28a745'"
+                                                onmouseout="this.style.color='var(--text-muted)'">
+                                                <i class="fas fa-arrow-left me-1"></i>
+                                                <%= t('Back to Home') %>
+                                            </a>
+                                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <!-- Right Column - Donations -->
-        <div class="col-lg-6 mb-4">
-            <div class="card profile-card">
-                <div class="profile-header">
-                    <i class="fas fa-heart"></i>
-                    <h2><%= t('My Donations') %></h2>
-                </div>
-                <div class="card-body p-4">
-                    <div class="mb-4 p-4 text-center" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); border-radius: 15px; color: white; box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);">
-                        <h5 class="mb-2"><%= t('Total Donated') %></h5>
-                        <h1 class="mb-2" style="font-weight: 700;" id="donationCounter">₹0.00</h1>
-                        <small style="opacity: 0.9;"><%= t('All amounts converted to INR') %></small>
-                    </div>
-                    
-                    <% if (donations.length === 0) { %>
-                        <div class="alert alert-info text-center">
-                            <p class="mb-2"><i class="fas fa-info-circle"></i> <%= t('No donations yet') %></p>
-                            <a href="/donate" class="btn btn-success mt-2">
-                                <i class="fas fa-heart"></i> <%= t('Make your first donation') %>
-                            </a>
+
+            <!-- ════ RIGHT – Donations ════ -->
+            <div class="col-lg-6">
+                <div class="card" style="border-radius:24px !important; box-shadow:0 12px 40px rgba(40,167,69,0.1);">
+
+                    <!-- Card Header -->
+                    <div class="card-header"
+                        style="background:linear-gradient(135deg,#28a745,#20c997) !important; border:none !important; border-radius:24px 24px 0 0 !important; padding:1.1rem 1.5rem;">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fas fa-heart text-white"></i>
+                            <h5 class="mb-0 text-white" style="font-weight:700;">
+                                <%= t('My Donations') %>
+                            </h5>
                         </div>
-                    <% } else { %>
-                        <h5 class="mb-3"><%= t('Donation History') %></h5>
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th><%= t('Date') %></th>
-                                        <th><%= t('Amount') %></th>
-                                        <th><%= t('Message') %></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <% donations.forEach(donation => { 
+                    </div>
+
+                    <div class="card-body p-4">
+                        <!-- Total Donated Banner -->
+                        <div style="
+                        background: linear-gradient(135deg, #1a5e2a 0%, #28a745 50%, #20c997 100%);
+                        border-radius: 18px;
+                        padding: 1.5rem;
+                        text-align: center;
+                        color: white;
+                        position: relative;
+                        overflow: hidden;
+                        margin-bottom: 1.5rem;
+                    ">
+                            <div
+                                style="position:absolute; inset:0; background:radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.1) 0%, transparent 60%); pointer-events:none;">
+                            </div>
+                            <div style="position:relative; z-index:1;">
+                                <div
+                                    style="display:inline-flex; align-items:center; justify-content:center; width:46px; height:46px; background:rgba(255,255,255,0.18); border-radius:50%; margin-bottom:0.75rem; border:2px solid rgba(255,255,255,0.3);">
+                                    <i class="fas fa-rupee-sign" style="font-size:1.1rem;"></i>
+                                </div>
+                                <p
+                                    style="margin:0 0 4px; font-size:0.82rem; font-weight:500; opacity:0.85; letter-spacing:0.5px; text-transform:uppercase;">
+                                    <%= t('Total Donated') %>
+                                </p>
+                                <h1 style="font-weight:800; font-size:2.2rem; margin:0 0 4px; letter-spacing:-1px;"
+                                    id="donationCounter">₹0.00</h1>
+                                <small style="opacity:0.75; font-size:0.78rem;">
+                                    <%= t('All amounts converted to INR') %>
+                                </small>
+                            </div>
+                        </div>
+
+                        <!-- Donation History -->
+                        <% if (donations.length===0) { %>
+                            <div class="text-center py-4">
+                                <div
+                                    style="width:64px; height:64px; background:rgba(40,167,69,0.08); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 1rem;">
+                                    <i class="fas fa-heart-broken"
+                                        style="font-size:1.6rem; color:#28a745; opacity:0.5;"></i>
+                                </div>
+                                <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:1rem;">
+                                    <%= t('No donations yet') %>
+                                </p>
+                                <a href="/donate" class="btn btn-success px-4"
+                                    style="border-radius:50px; font-weight:700;">
+                                    <i class="fas fa-heart me-2"></i>
+                                    <%= t('Make your first donation') %>
+                                </a>
+                            </div>
+                            <% } else { %>
+                                <h6
+                                    style="font-weight:700; color:var(--text-secondary); font-size:0.8rem; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:1rem;">
+                                    <i class="fas fa-history me-1" style="color:#28a745;"></i>
+                                    <%= t('Donation History') %>
+                                </h6>
+
+                                <div
+                                    style="display:flex; flex-direction:column; gap:10px; max-height:340px; overflow-y:auto; padding-right:4px; scrollbar-width:thin; scrollbar-color:#c3e6cb transparent;">
+                                    <% donations.forEach(donation=> {
                                         const formatDate = (date) => {
-                                            return new Date(date).toLocaleDateString(language === 'mr' ? 'mr-IN' : 'en-US', { year: 'numeric', month: 'numeric', day: 'numeric' });
+                                        return new Date(date).toLocaleDateString(language === 'mr' ? 'mr-IN' : 'en-US',
+                                        { year: 'numeric', month: 'short', day: 'numeric' });
                                         };
                                         const formatNumber = (num) => {
-                                            if (language === 'mr') {
-                                                const marathiDigits = {'0':'०','1':'१','2':'२','3':'३','4':'४','5':'५','6':'६','7':'७','8':'८','9':'९'};
-                                                return num.toString().replace(/[0-9]/g, d => marathiDigits[d]);
-                                            }
-                                            return num;
+                                        if (language === 'mr') {
+                                        const marathiDigits =
+                                        {'0':'०','1':'१','2':'२','3':'३','4':'४','5':'५','6':'६','7':'७','8':'८','9':'९'};
+                                        return num.toString().replace(/[0-9]/g, d => marathiDigits[d]);
+                                        }
+                                        return num;
                                         };
-                                    %>
-                                        <tr>
-                                            <td><%= formatDate(donation.createdAt) %></td>
-                                            <td><span class="badge bg-success"><%= donation.currency %> <%= formatNumber(donation.amount.toFixed(2)) %></span></td>
-                                            <td><%= donation.message %></td>
-                                        </tr>
-                                    <% }) %>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="text-center mt-3">
-                            <a href="/donate" class="btn btn-success">
-                                <i class="fas fa-heart"></i> <%= t('Donate Again') %>
-                            </a>
-                        </div>
-                    <% } %>
+                                        %>
+                                        <div style="
+                                    background: var(--bg-alt, #f6fdf8);
+                                    border: 1px solid var(--border-light, #e9f5ec);
+                                    border-radius: 14px;
+                                    padding: 12px 16px;
+                                    display: flex;
+                                    align-items: center;
+                                    gap: 12px;
+                                    transition: all 0.25s ease;
+                                " onmouseover="this.style.boxShadow='0 4px 16px rgba(40,167,69,0.12)'; this.style.borderColor='rgba(40,167,69,0.25)'"
+                                            onmouseout="this.style.boxShadow='none'; this.style.borderColor='var(--border-light, #e9f5ec)'">
+                                            <!-- Icon -->
+                                            <div
+                                                style="width:38px; height:38px; background:linear-gradient(135deg,#28a745,#20c997); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                                                <i class="fas fa-heart text-white" style="font-size:0.85rem;"></i>
+                                            </div>
+                                            <!-- Details -->
+                                            <div style="flex:1; min-width:0;">
+                                                <div
+                                                    style="font-weight:700; font-size:0.92rem; color:var(--text-primary);">
+                                                    <%= donation.currency %>
+                                                        <%= formatNumber(donation.amount.toFixed(2)) %>
+                                                </div>
+                                                <div style="font-size:0.78rem; color:var(--text-muted);">
+                                                    <i class="fas fa-calendar-alt me-1"></i>
+                                                    <%= formatDate(donation.createdAt) %>
+                                                        <% if (donation.message) { %>
+                                                            &nbsp;·&nbsp; <%= donation.message %>
+                                                                <% } %>
+                                                </div>
+                                            </div>
+                                            <!-- Badge -->
+                                            <span
+                                                style="background:rgba(40,167,69,0.1); color:#198754; border-radius:50px; padding:3px 10px; font-size:0.75rem; font-weight:700; flex-shrink:0;">
+                                                ✓ <%= t('Paid') %>
+                                            </span>
+                                        </div>
+                                        <% }) %>
+                                </div>
+
+                                <div class="text-center mt-4">
+                                    <a href="/donate" class="btn btn-success px-4"
+                                        style="border-radius:50px; font-weight:700;">
+                                        <i class="fas fa-heart me-2"></i>
+                                        <%= t('Donate Again') %>
+                                    </a>
+                                </div>
+                                <% } %>
+                    </div>
                 </div>
             </div>
+
         </div>
     </div>
-</div>
 
-<script>
-const totalDonated = <%= totalDonated %>;
-const language = '<%= language %>';
-const counter = document.getElementById('donationCounter');
-let current = 0;
-const increment = totalDonated / 100;
-const duration = 1500;
-const stepTime = duration / 100;
+    <script>
+        const totalDonated = parseFloat('<%= totalDonated %>') || 0;
+        const language = '<%= language %>';
+        const counter = document.getElementById('donationCounter');
+        let current = 0;
+        const increment = totalDonated / 80;
+        const stepTime = 1500 / 80;
 
-function toMarathiNumber(num) {
-    const marathiDigits = {'0':'०','1':'१','2':'२','3':'३','4':'४','5':'५','6':'६','7':'७','8':'८','9':'९'};
-    return num.toString().replace(/[0-9]/g, d => marathiDigits[d]);
-}
-
-const timer = setInterval(() => {
-    current += increment;
-    if (current >= totalDonated) {
-        current = totalDonated;
-        clearInterval(timer);
-    }
-    const formatted = current.toFixed(2);
-    counter.textContent = '₹' + (language === 'mr' ? toMarathiNumber(formatted) : formatted);
-}, stepTime);
-
-// Auto-hide success alert after 3 seconds
-setTimeout(() => {
-    const alert = document.querySelector('.alert-success');
-    if (alert) {
-        const bsAlert = new bootstrap.Alert(alert);
-        bsAlert.close();
-    }
-}, 3000);
-
-// Store original values
-let originalValues = {};
-
-function enableEdit() {
-    const form = document.getElementById('profileForm');
-    const inputs = form.querySelectorAll('input[type="text"], input[type="tel"], input[type="password"]');
-    
-    // Store original values
-    inputs.forEach(input => {
-        originalValues[input.name] = input.value;
-        input.disabled = false;
-    });
-    
-    document.getElementById('editBtn').style.display = 'none';
-    document.getElementById('saveBtn').style.display = 'block';
-    document.getElementById('cancelBtn').style.display = 'block';
-}
-
-function cancelEdit() {
-    const form = document.getElementById('profileForm');
-    const inputs = form.querySelectorAll('input[type="text"], input[type="tel"], input[type="password"]');
-    
-    // Restore original values
-    inputs.forEach(input => {
-        if (originalValues[input.name] !== undefined) {
-            input.value = originalValues[input.name];
+        function toMarathiNumber(num) {
+            const d = { '0': '०', '1': '१', '2': '२', '3': '३', '4': '४', '5': '५', '6': '६', '7': '७', '8': '८', '9': '९' };
+            return num.toString().replace(/[0-9]/g, ch => d[ch]);
         }
-        input.disabled = true;
-    });
-    
-    document.getElementById('editBtn').style.display = 'block';
-    document.getElementById('saveBtn').style.display = 'none';
-    document.getElementById('cancelBtn').style.display = 'none';
-}
-</script>
 
-<%- include('../partials/footer') %>
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= totalDonated) { current = totalDonated; clearInterval(timer); }
+            const formatted = current.toFixed(2);
+            counter.textContent = '₹' + (language === 'mr' ? toMarathiNumber(formatted) : formatted);
+        }, stepTime);
+
+        // Auto-hide success alert
+        setTimeout(() => {
+            const alert = document.querySelector('.alert-success');
+            if (alert) { try { new bootstrap.Alert(alert).close(); } catch (e) { } }
+        }, 3000);
+
+        // Store original values for edit/cancel
+        let originalValues = {};
+
+        function enableEdit() {
+            const inputs = document.querySelectorAll('#profileForm input[type="text"], #profileForm input[type="tel"], #profileForm input[type="password"]');
+            inputs.forEach(input => { originalValues[input.name] = input.value; input.disabled = false; });
+            document.getElementById('editBtn').style.display = 'none';
+            document.getElementById('saveBtn').style.display = 'block';
+            document.getElementById('cancelBtn').style.display = 'block';
+        }
+
+        function cancelEdit() {
+            const inputs = document.querySelectorAll('#profileForm input[type="text"], #profileForm input[type="tel"], #profileForm input[type="password"]');
+            inputs.forEach(input => { if (originalValues[input.name] !== undefined) input.value = originalValues[input.name]; input.disabled = true; });
+            document.getElementById('editBtn').style.display = 'block';
+            document.getElementById('saveBtn').style.display = 'none';
+            document.getElementById('cancelBtn').style.display = 'none';
+        }
+    </script>
+
+    <%- include('../partials/footer') %>

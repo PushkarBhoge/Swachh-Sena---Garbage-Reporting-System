@@ -3,7 +3,7 @@ const Blog = require('../models/Blog');
 const Team = require('../models/Team');
 const Newsletter = require('../models/Newsletter');
 const Donation = require('../models/Donation');
-const { uploadToCloudinary } = require('../config/cloudinary');
+const { uploadToCloudinary, uploadMultiple } = require('../config/cloudinary');
 
 const adminController = {
   // Admin login page (redirect to unified auth)
@@ -19,7 +19,7 @@ const adminController = {
   // Admin logout
   logout: (req, res) => {
     req.session.destroy();
-    res.redirect('/auth/login');
+    res.redirect('/');
   },
 
   // Admin dashboard
@@ -138,12 +138,9 @@ const adminController = {
       if (adminRemarks) updateData.adminRemarks = adminRemarks;
 
       // Handle after image upload for cleaned status
-      if (status === 'Cleaned' && req.file) {
-        const result = await uploadToCloudinary(req.file.buffer);
-        updateData.afterImage = {
-          url: result.secure_url,
-          public_id: result.public_id
-        };
+      if (status === 'Cleaned' && req.files && req.files.length > 0) {
+        const results = await uploadMultiple(req.files);
+        updateData.afterImages = results.map(r => ({ url: r.secure_url, public_id: r.public_id }));
         updateData.cleanedAt = new Date();
       }
 

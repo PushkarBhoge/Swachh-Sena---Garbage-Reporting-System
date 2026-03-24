@@ -2,26 +2,23 @@
 
 // Language selector functionality
 function initializeLanguageSelector() {
-    const languageSelector = document.getElementById('languageSelector');
-    if (languageSelector) {
-        languageSelector.addEventListener('change', async function() {
-            const selectedLanguage = this.value;
+    // Custom dropdown lang options
+    document.querySelectorAll('.lang-option').forEach(item => {
+        item.addEventListener('click', async function(e) {
+            e.preventDefault();
+            const selectedLanguage = this.dataset.lang;
             try {
                 const response = await fetch('/set-language', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ language: selectedLanguage })
                 });
-                if (response.ok) {
-                    window.location.reload();
-                }
+                if (response.ok) window.location.reload();
             } catch (error) {
                 console.error('Error setting language:', error);
             }
         });
-    }
+    });
 }
 
 // Theme toggle functionality

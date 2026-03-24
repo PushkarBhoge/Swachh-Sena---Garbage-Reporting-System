@@ -1,93 +1,143 @@
 <%- include('../partials/header') %>
 
-<div class="container my-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2><%= t('Garbage Reports') %></h2>
-        <div class="btn-group" role="group">
-            <a href="/reports?filter=all" class="btn <%= filter === 'all' ? 'btn-success' : 'btn-outline-success' %>">
-                <i class="fas fa-globe"></i> <%= t('All Reports') %>
-            </a>
-            <a href="/reports?filter=mine" class="btn <%= filter === 'mine' ? 'btn-success' : 'btn-outline-success' %>">
-                <i class="fas fa-user"></i> <%= t('My Reports') %>
-            </a>
+    <div class="container my-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>
+                <%= t('Garbage Reports') %>
+            </h2>
+            <div class="btn-group" role="group">
+                <a href="/reports?filter=all"
+                    class="btn <%= filter === 'all' ? 'btn-success' : 'btn-outline-success' %>">
+                    <i class="fas fa-globe"></i>
+                    <%= t('All Reports') %>
+                </a>
+                <a href="/reports?filter=mine"
+                    class="btn <%= filter === 'mine' ? 'btn-success' : 'btn-outline-success' %>">
+                    <i class="fas fa-user"></i>
+                    <%= t('My Reports') %>
+                </a>
+            </div>
         </div>
-    </div>
-    
-    <% if (success) { %>
-        <div class="alert alert-success" data-auto-hide="true">✓ Report submitted!</div>
-    <% } %>
-    
-    <% if (reports.length === 0) { %>
-        <div class="alert alert-info"><%= t('No reports yet') %></div>
-    <% } else { %>
-        <div class="row">
-            <% reports.forEach(report => { 
-                const formatDate = (date) => {
-                    return new Date(date).toLocaleDateString(language === 'mr' ? 'mr-IN' : 'en-US', { year: 'numeric', month: 'numeric', day: 'numeric' });
-                };
-                const formatNumber = (num) => {
-                    if (language === 'mr') {
-                        const devanagariMap = {'0':'०','1':'१','2':'२','3':'३','4':'४','5':'५','6':'६','7':'७','8':'८','9':'९'};
-                        return num.toString().replace(/[0-9]/g, d => devanagariMap[d]);
-                    }
-                    return num;
-                };
-            %>
-                <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="card">
-                        <img src="<%= report.beforeImage.url %>" class="card-img-top" alt="Before Image" style="height: 200px; object-fit: cover;">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <span class="badge bg-<%= report.status === 'Pending' ? 'warning' : report.status === 'Assigned' ? 'info' : 'success' %>">
-                                    <%= t(report.status) %>
-                                </span>
-                            </h5>
-                            <p class="card-text">
-                                <strong><%= t('Location:') %></strong> <%= report.location.area %>, <%= report.location.landmark %><br>
-                                <strong><%= t('City:') %></strong> <%= report.location.city %> - <%= formatNumber(report.location.pincode) %><br>
-                                <strong><%= t('Description:') %></strong> <%= report.description %>
-                            </p>
-                            <small class="text-muted"><%= t('Reported on:') %> <%= formatDate(report.createdAt) %></small>
-                            
-                            <% if (report.status === 'Cleaned' && report.afterImage) { %>
-                                <hr>
-                                <h6><%= t('After Cleaning:') %> 
-                                    <button type="button" class="btn btn-success btn-sm ms-2" onclick="viewImage('<%= report.afterImage.url %>')">
-                                        <i class="fas fa-eye"></i> <%= t('View') %>
-                                    </button>
-                                </h6>
-                                <% if (report.cleanedAt) { %>
-                                    <small class="text-muted"><%= t('Cleaned on:') %> <%= formatDate(report.cleanedAt) %></small>
-                                <% } %>
-                            <% } %>
-                        </div>
+
+        <% if (success) { %>
+            <div class="alert alert-success" data-auto-hide="true">✓ Report submitted!</div>
+            <% } %>
+
+                <% if (reports.length===0) { %>
+                    <div class="alert alert-info">
+                        <%= t('No reports yet') %>
                     </div>
-                </div>
-            <% }) %>
-        </div>
-    <% } %>
-</div>
+                    <% } else { %>
+                        <div class="row">
+                            <% reports.forEach(report=> {
+                                const formatDate = (date) => {
+                                return new Date(date).toLocaleDateString(language === 'mr' ? 'mr-IN' : 'en-US', { year:
+                                'numeric', month: 'numeric', day: 'numeric' });
+                                };
+                                const formatNumber = (num) => {
+                                if (language === 'mr') {
+                                const devanagariMap =
+                                {'0':'०','1':'१','2':'२','3':'३','4':'४','5':'५','6':'६','7':'७','8':'८','9':'९'};
+                                return num.toString().replace(/[0-9]/g, d => devanagariMap[d]);
+                                }
+                                return num;
+                                };
+                                %>
+                                <div class="col-md-6 col-lg-4 mb-4">
+                                    <div class="card">
+                                        <% if (report.beforeImages && report.beforeImages.length) { %>
+                                            <div style="position:relative;cursor:pointer;" onclick="openSlideshow(<%= JSON.stringify(report.beforeImages.map(i=>i.url)) %>, 0)">
+                                                <img src="<%= report.beforeImages[0].url %>" class="card-img-top" alt="Before Image" style="height:200px;object-fit:cover;">
+                                                <div style="position:absolute;bottom:8px;left:8px;display:flex;gap:6px;align-items:center;">
+                                                    
+                                                    <% if (report.beforeImages.length > 1) { %>
+                                                        <span style="background:rgba(0,0,0,0.55);color:#fff;border-radius:50px;padding:3px 10px;font-size:0.75rem;font-weight:600;">
+                                                            <i class="fas fa-images me-1"></i><%= report.beforeImages.length %> <%= t('Images') %>
+                                                        </span>
+                                                    <% } %>
+                                                </div>
+                                            </div>
+                                        <% } %>
+                                        <div class="card-body">
+                                            <h5 class="card-title">
+                                                <span
+                                                    class="badge bg-<%= report.status === 'Pending' ? 'warning' : report.status === 'Assigned' ? 'info' : 'success' %>">
+                                                    <%= t(report.status) %>
+                                                </span>
+                                            </h5>
+                                            
+                                            <p class="card-text">
+                                                <strong>
+                                                    <%= t('Location:') %>
+                                                </strong>
+                                                <%= report.location.area %>, <%= report.location.landmark %><br>
+                                                        <strong>
+                                                            <%= t('City:') %>
+                                                        </strong>
+                                                        <%= report.location.city %> - <%=
+                                                                formatNumber(report.location.pincode) %><br>
+                                                                <strong>
+                                                                    <%= t('Description:') %>
+                                                                </strong>
+                                                                <%= report.description %>
+                                            </p>
+                                            <small class="text-muted">
+                                                <%= t('Reported on:') %>
+                                                    <%= formatDate(report.createdAt) %>
+                                            </small>
 
-<!-- Image View Modal -->
-<div class="modal fade" id="imageViewModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"><%= t('View Image') %></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body text-center">
-                <img id="modalImage" src="" class="img-fluid" alt="Image">
+                                            <% if (report.status==='Cleaned' && report.afterImages && report.afterImages.length) { %>
+                                                <hr>
+                                                <h6><%= t('After Cleaning:') %></h6>
+                                                <div class="mb-1 d-flex align-items-center gap-2">
+                                                    <span onclick="openSlideshow(<%= JSON.stringify(report.afterImages.map(i=>i.url)) %>, 0)"
+                                                        style="background:#198754;color:#fff;border-radius:50px;padding:3px 12px;font-size:0.75rem;font-weight:600;cursor:pointer;">
+                                                        <i class="fas fa-eye me-1"></i><%= t('View') %>
+                                                    </span>
+                                                    <% if (report.afterImages.length > 1) { %>
+                                                        <span style="background:rgba(40,167,69,0.1);color:#198754;border-radius:50px;padding:3px 10px;font-size:0.75rem;font-weight:600;border:1px solid rgba(40,167,69,0.2);">
+                                                            <i class="fas fa-images me-1"></i><%= report.afterImages.length %> <%= t('Images') %>
+                                                        </span>
+                                                    <% } %>
+                                                </div>
+                                                <% if (report.cleanedAt) { %>
+                                                    <small class="text-muted"><%= t('Cleaned on:') %> <%= formatDate(report.cleanedAt) %></small>
+                                                <% } %>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% }) %>
+                        </div>
+                        <% } %>
+    </div>
+
+    <!-- Slideshow Modal -->
+    <div class="modal fade" id="slideshowModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background:linear-gradient(135deg,#28a745,#20c997);border:none">
+                    <h5 class="modal-title text-white fw-bold"><i class="fas fa-images me-2"></i><%= t('View Images') %></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center p-2" style="position:relative;min-height:300px">
+                    <img id="ssImg" src="" class="img-fluid rounded" style="max-height:65vh">
+                    <button onclick="ssNav(-1)" class="ss-nav-btn" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);background:rgba(40,167,69,0.15);border:1px solid rgba(40,167,69,0.3);color:var(--text-primary);font-size:1.8rem;border-radius:50%;width:42px;height:42px;cursor:pointer">&#8249;</button>
+                    <button onclick="ssNav(1)"  class="ss-nav-btn" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:rgba(40,167,69,0.15);border:1px solid rgba(40,167,69,0.3);color:var(--text-primary);font-size:1.8rem;border-radius:50%;width:42px;height:42px;cursor:pointer">&#8250;</button>
+                    <div id="ssCtr" style="color:var(--text-muted);font-size:0.85rem;margin-top:6px"></div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<script>
-function viewImage(imageUrl) {
-    document.getElementById('modalImage').src = imageUrl;
-    new bootstrap.Modal(document.getElementById('imageViewModal')).show();
-}
-</script>
+    <script>
+        function openSlideshow(urls, start) {
+            window._ssU = urls; window._ssI = start;
+            const render = () => { document.getElementById('ssImg').src = window._ssU[window._ssI]; document.getElementById('ssCtr').textContent = (window._ssI+1)+' / '+window._ssU.length; };
+            window.ssNav = d => { window._ssI = (window._ssI+d+window._ssU.length)%window._ssU.length; render(); };
+            render();
+            new bootstrap.Modal(document.getElementById('slideshowModal')).show();
+        }
+    </script>
 
-<%- include('../partials/footer') %>
+    <%- include('../partials/footer') %>
